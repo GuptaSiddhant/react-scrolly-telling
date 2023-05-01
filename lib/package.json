@@ -1,0 +1,56 @@
+{
+  "name": "react-scrolly-telling",
+  "version": "0.0.2",
+  "description": "Create scrolly-telling animations in React with ease.",
+  "type": "module",
+  "keywords": [
+    "react",
+    "scroll",
+    "scrolly",
+    "scrollytelling",
+    "animation"
+  ],
+  "author": "Siddhant Gupta <me@guptasiddhant.com>",
+  "license": "MIT",
+  "main": "dist/main.js",
+  "module": "dist/main.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/main.mjs",
+      "default": "./dist/main.js"
+    },
+    "./useScrolly": {
+      "types": "./dist/useScrolly.d.ts",
+      "import": "./dist/useScrolly.mjs",
+      "default": "./dist/useScrolly.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build -w",
+    "lint": "eslint src --ext ts,tsx",
+    "prepublishOnly": "yarn lint; yarn build"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react": "^18.2.0",
+    "typescript": "^5.0.0",
+    "vite": "^4.3.3",
+    "vite-plugin-dts": "^2.3.0",
+    "vitest": "^0.30.1"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  }
+}

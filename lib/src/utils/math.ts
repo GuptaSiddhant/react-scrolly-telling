@@ -1,11 +1,11 @@
-export function roundToDecimal(num: number, decimalPlaces: number = 0): number {
+export function roundToDecimal(num: number, decimalPlaces?: number): number {
   if (decimalPlaces === 0) return Math.round(num);
-  const multiplier = 10 ** Math.round(decimalPlaces);
+  const multiplier = 10 ** Math.round(decimalPlaces || 0);
   return Math.round(num * multiplier) / multiplier;
 }
 
-export function minmax(num: number, min: number = 0, max?: number): number {
-  return Math.max(max !== undefined ? Math.min(num, max) : num, min);
+export function minmax(num: number, min?: number, max?: number): number {
+  return Math.max(max !== undefined ? Math.min(num, max) : num, min || 0);
 }
 
 export interface InterpolateOptions {
