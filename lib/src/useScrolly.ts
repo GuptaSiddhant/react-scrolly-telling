@@ -1,5 +1,5 @@
 import { minmax, roundToDecimal } from "./utils/math.js";
-import useWindowDimensions from "./utils/window-resize.js";
+import useParentElementDimension from "./utils/parent-dimension.js";
 import useElementPosition from "./utils/element-position.js";
 
 const DEFAULT_START_AT = 1;
@@ -34,7 +34,7 @@ export interface ScrollyOptions {
   /**
    * The parent element to use for calculating the scroll ratio. Defaults to 'window'.
    */
-  parent?: HTMLElement;
+  parentElement?: HTMLElement;
 }
 
 export interface ScrollyValues {
@@ -75,12 +75,14 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
     endAt = DEFAULT_END_AT,
     disabled = DEFAULT_DISABLED,
     precision = DEFAULT_PRECISION,
+    parentElement,
   } = options || {};
   const decimalPlaces = minmax(precision, 1, 6);
 
-  const { windowHeight, windowWidth } = useWindowDimensions({ disabled });
+  const { windowHeight, windowWidth } = useParentElementDimension({ disabled });
   const { top: elementTop, height: elementHeight } = useElementPosition(ref, {
     disabled,
+    parentElement,
   });
 
   const scrollRatio: number = calculateScrollRatio(

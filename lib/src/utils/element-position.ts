@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 
+import createSubscriber from "./create-subscriber.js";
 import { roundToDecimal } from "./math.js";
-import createWindowSubscriber from "./window-subscribe.js";
 
 const DEFAULT_VALUE = 0;
 
@@ -11,6 +11,7 @@ export interface ElementPositionOptions {
   disabled?: boolean;
   defaultValue?: number;
   precision?: number;
+  parentElement?: HTMLElement;
 }
 
 export interface ElementPosition {
@@ -22,12 +23,21 @@ export default function useElementPosition(
   elementRef: React.RefObject<HTMLElement>,
   options: ElementPositionOptions = {}
 ): ElementPosition {
-  const { disabled, defaultValue = DEFAULT_VALUE, precision } = options;
+  const {
+    disabled,
+    defaultValue = DEFAULT_VALUE,
+    precision,
+    parentElement,
+  } = options;
+  const defaultPosition: ElementPosition = {
+    height: defaultValue,
+    top: defaultValue,
+  };
 
   return useSyncExternalStore(
-    createWindowSubscriber("scroll", disabled),
+    createSubscriber("scroll", parentElement, disabled),
     createElementPositionSnapshotGetter(elementRef.current, precision),
-    () => ({ height: defaultValue, top: defaultValue })
+    () => defaultPosition
   );
 }
 

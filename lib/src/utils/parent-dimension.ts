@@ -1,37 +1,43 @@
 import { useSyncExternalStore } from "react";
 
+import createSubscriber from "./create-subscriber.js";
 import { roundToDecimal } from "./math.js";
-import createWindowSubscriber from "./window-subscribe.js";
 
 const DEFAULT_HEIGHT = 500;
 const DEFAULT_WIDTH = 800;
 
-export interface WindowDimensionsOptions {
+export interface ParentElementDimensionOptions {
   disabled?: boolean;
   defaultHeight?: number;
   defaultWidth?: number;
   precision?: number;
+  parentElement?: HTMLElement;
 }
 
-export interface WindowDimensions {
+export interface ParentElementDimension {
   readonly windowHeight: number;
   readonly windowWidth: number;
 }
 
-export default function useWindowDimensions(
-  options: WindowDimensionsOptions = {}
-): WindowDimensions {
+export default function useParentElementDimension(
+  options: ParentElementDimensionOptions = {}
+): ParentElementDimension {
   const {
     disabled,
     defaultHeight = DEFAULT_HEIGHT,
     defaultWidth = DEFAULT_WIDTH,
     precision,
+    parentElement,
   } = options;
+  const defaultDimension: ParentElementDimension = {
+    windowHeight: defaultHeight,
+    windowWidth: defaultWidth,
+  };
 
   return useSyncExternalStore(
-    createWindowSubscriber("resize", disabled),
+    createSubscriber("resize", parentElement, disabled),
     createWindowDimensionSnapshotGetter(precision),
-    () => ({ windowHeight: defaultHeight, windowWidth: defaultWidth })
+    () => defaultDimension
   );
 }
 
@@ -39,8 +45,8 @@ export default function useWindowDimensions(
 
 function createWindowDimensionSnapshotGetter(
   decimalPlaces = -1
-): () => WindowDimensions {
-  let dimensions: WindowDimensions = {
+): () => ParentElementDimension {
+  let dimensions: ParentElementDimension = {
     windowHeight: DEFAULT_HEIGHT,
     windowWidth: DEFAULT_WIDTH,
   };
