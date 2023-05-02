@@ -11,7 +11,8 @@ export default defineConfig({
       },
       name: "react-scrolly-telling",
       formats: ["es", "cjs"],
-      fileName: (format, entry) => `${entry}.${format === "es" ? "mjs" : "js"}`,
+      fileName: (format, entry) =>
+        `${entry}.${format === "es" ? "mjs" : "cjs"}`,
     },
     rollupOptions: {
       external: [
@@ -21,8 +22,6 @@ export default defineConfig({
       output: { experimentalMinChunkSize: 1000 },
     },
     target: "es2016",
-    manifest: true,
-    emptyOutDir: true,
   },
   plugins: [
     dtsPlugin({
