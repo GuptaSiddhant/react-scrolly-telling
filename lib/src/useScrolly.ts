@@ -95,13 +95,13 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
     disabled
   );
 
-  const entryRatio: number = calculateEntryRatio(
+  const entryRatio: number = calculateEntryExitRatio(
     elementTop,
     windowHeight,
     decimalPlaces
   );
 
-  const exitRatio: number = calculateExitRatio(
+  const exitRatio: number = calculateEntryExitRatio(
     elementTop + elementHeight,
     windowHeight,
     decimalPlaces
@@ -149,30 +149,21 @@ function calculateScrollRatio(
 
 /**
  * The ratio of entry in viewport. Value: 0 - 1
- * - 0.0: the element has not entered the viewport.
- * - 0.5: the top of the element is halfway into the viewport.
- * - 1.0: the top of the element has reached top of the viewport.
+ * - 0.0: the element' part has not entered the viewport.
+ * - 0.5: the part of the element is halfway into the viewport.
+ * - 1.0: the part of the element has reached top of the viewport.
  */
-function calculateEntryRatio(
-  elementTop: number,
+function calculateEntryExitRatio(
+  elementPartPosition: number,
   windowHeight: number,
   decimalPlaces: number
 ) {
-  const distanceRatio = elementTop / windowHeight;
+  const distanceRatio = elementPartPosition / windowHeight;
   return minmax(roundToDecimal(1 - distanceRatio, decimalPlaces), 0, 1);
 }
 
-/**
- * The ratio of exit from viewport. Value: 0 - 1
- * - 0.0: the bottom of the element is at the bottom of the viewport.
- * - 0.5: the bottom of the element is halfway into the viewport.
- * - 1.0: the element has completely exited the viewport.
- */
-function calculateExitRatio(
-  elementBottom: number,
-  windowHeight: number,
-  decimalPlaces: number
-) {
-  const distanceRatio = elementBottom / windowHeight;
-  return minmax(roundToDecimal(1 - distanceRatio, decimalPlaces), 0, 1);
-}
+/** @internal */
+export const __EXPORTS_FOR_TESTS_ONLY__ = {
+  calculateEntryExitRatio,
+  calculateScrollRatio,
+};
