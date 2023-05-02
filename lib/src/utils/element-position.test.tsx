@@ -7,8 +7,6 @@ import useElementPosition, {
 describe("useElementPosition", () => {
   it("should return default value when disabled is true", () => {
     const element = document.createElement("div");
-    element.style.height = "200px";
-    element.style.width = "100%";
     document.body.appendChild(element);
 
     const { result } = renderHook(() =>

@@ -1,5 +1,5 @@
 import { minmax, roundToDecimal } from "./utils/math.js";
-import useParentElementDimension from "./utils/parent-dimension.js";
+import useWindowDimension from "./utils/window-dimension.js";
 import useElementPosition from "./utils/element-position.js";
 
 const DEFAULT_START_AT = 1;
@@ -79,7 +79,7 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
   } = options || {};
   const decimalPlaces = minmax(precision, 1, 6);
 
-  const { windowHeight, windowWidth } = useParentElementDimension({ disabled });
+  const { windowHeight, windowWidth } = useWindowDimension({ disabled });
   const { top: elementTop, height: elementHeight } = useElementPosition(ref, {
     disabled,
     parentElement,
