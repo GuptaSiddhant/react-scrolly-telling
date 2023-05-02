@@ -1,7 +1,10 @@
 export function roundToDecimal(num: number, decimalPlaces?: number): number {
   if (decimalPlaces === 0) return Math.round(num);
   const multiplier = 10 ** Math.round(decimalPlaces || 0);
-  return Math.round(num * multiplier) / multiplier;
+  const roundedValue = Math.round(num * multiplier) / multiplier;
+
+  if (decimalPlaces && decimalPlaces < 0) return Math.round(roundedValue);
+  return roundedValue;
 }
 
 export function minmax(num: number, min?: number, max?: number): number {
@@ -33,8 +36,10 @@ export function interpolate(
   if (method === "linear") {
     return interpolateLinear(
       value,
-      [sourceStart, sourceEnd],
-      [targetStart, targetEnd]
+      sourceStart,
+      sourceEnd,
+      targetStart,
+      targetEnd
     );
   }
 
@@ -43,15 +48,12 @@ export function interpolate(
 
 function interpolateLinear(
   value: number,
-  source: [number, number],
-  target: [number, number]
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number
 ): number {
-  const [x1, y1] = source;
-  const [x2, y2] = target;
-  if (x1 === y1) return value;
   // Source: https://www.trysmudford.com/blog/linear-interpolation-functions/
-  const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
-  const invlerp = (x: number, y: number, a: number) =>
-    minmax((a - x) / (y - x), 0, 1);
-  return lerp(x2, y2, invlerp(x1, y1, value));
+  const normalisedValue = minmax((value - x1) / (y1 - x1), 0, 1);
+  return x2 * (1 - normalisedValue) + y2 * normalisedValue;
 }
