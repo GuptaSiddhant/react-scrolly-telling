@@ -5,7 +5,7 @@ import useScrolly from "react-scrolly-telling/useScrolly";
 function App() {
   const ref = useRef<HTMLDivElement>(null);
 
-  const values = useScrolly(ref, { precision: 3 });
+  const values = useScrolly(ref);
 
   return (
     <div ref={ref} className="app">

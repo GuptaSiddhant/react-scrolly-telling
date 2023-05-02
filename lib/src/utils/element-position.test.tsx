@@ -36,11 +36,11 @@ describe("useElementPosition", () => {
 describe("createElementPositionSnapshotGetter", () => {
   it("should return current bounding rect for element", () => {
     const element = document.createElement("div");
-    document.body.appendChild(element);
+    const elementRef = { current: element };
 
     const defaultPosition: ElementPosition = { height: 0, top: 0 };
     const getPosition = createElementPositionSnapshotGetter(
-      element,
+      elementRef,
       defaultPosition
     );
 
@@ -61,11 +61,11 @@ describe("createElementPositionSnapshotGetter", () => {
 
   it("should return same bounding rect for element if position is same", () => {
     const element = document.createElement("div");
-    document.body.appendChild(element);
+    const elementRef = { current: element };
 
     const defaultPosition: ElementPosition = { height: 0, top: 0 };
     const getPosition = createElementPositionSnapshotGetter(
-      element,
+      elementRef,
       defaultPosition
     );
 

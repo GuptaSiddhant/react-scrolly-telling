@@ -44,18 +44,26 @@ describe.concurrent("calculateEntryExitRatio", () => {
   });
 });
 
-describe.concurrent("calculateScrollRatio", () => {
+describe("calculateScrollRatio", () => {
   const windowHeight = 1000;
   const decimalPlaces = 2;
   const disabled = false;
 
-  describe.concurrent("when element is bigger than viewport", () => {
-    const elementHeight = 2000;
+  interface CalculateScrollRatioTestConfig {
+    startAt: number;
+    endAt: number;
+    elementTopToScrollRatioMap: Map<number, number>;
+    elementHeight: number;
+  }
 
-    describe.concurrent("when startAt=1 and endAt=1 (default)", () => {
-      const startAt = 1;
-      const endAt = 1;
-      const elementTopMap = new Map<number, number>([
+  const configs: Array<CalculateScrollRatioTestConfig> = [
+    // Bigger than viewport
+    {
+      // Default
+      startAt: 1,
+      endAt: 0,
+      elementHeight: 2000,
+      elementTopToScrollRatioMap: new Map([
         [1500, 0],
         [1000, 0],
         [500, 0],
@@ -65,29 +73,13 @@ describe.concurrent("calculateScrollRatio", () => {
         [-1500, 1],
         [-2000, 1],
         [-2500, 1],
-      ]);
-
-      for (const [elementTop, scrollRatio] of elementTopMap) {
-        it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
-          expect(
-            calculateScrollRatio(
-              windowHeight,
-              startAt,
-              endAt,
-              elementTop,
-              elementHeight,
-              decimalPlaces,
-              disabled
-            )
-          ).toBe(scrollRatio);
-        });
-      }
-    });
-
-    describe.concurrent("when startAt=0 and endAt=1", () => {
-      const startAt = 0;
-      const endAt = 1;
-      const elementTopMap = new Map<number, number>([
+      ]),
+    },
+    {
+      startAt: 0,
+      endAt: 0,
+      elementHeight: 2000,
+      elementTopToScrollRatioMap: new Map([
         [1500, 0],
         [1000, 0],
         [500, 0.25],
@@ -97,29 +89,13 @@ describe.concurrent("calculateScrollRatio", () => {
         [-1500, 1],
         [-2000, 1],
         [-2500, 1],
-      ]);
-
-      for (const [elementTop, scrollRatio] of elementTopMap) {
-        it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
-          expect(
-            calculateScrollRatio(
-              windowHeight,
-              startAt,
-              endAt,
-              elementTop,
-              elementHeight,
-              decimalPlaces,
-              disabled
-            )
-          ).toBe(scrollRatio);
-        });
-      }
-    });
-
-    describe.concurrent("when startAt=1 and endAt=0", () => {
-      const startAt = 1;
-      const endAt = 0;
-      const elementTopMap = new Map<number, number>([
+      ]),
+    },
+    {
+      startAt: 1,
+      endAt: 1,
+      elementHeight: 2000,
+      elementTopToScrollRatioMap: new Map([
         [1500, 0],
         [1000, 0],
         [500, 0],
@@ -129,29 +105,13 @@ describe.concurrent("calculateScrollRatio", () => {
         [-1500, 0.75],
         [-2000, 1],
         [-2500, 1],
-      ]);
-
-      for (const [elementTop, scrollRatio] of elementTopMap) {
-        it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
-          expect(
-            calculateScrollRatio(
-              windowHeight,
-              startAt,
-              endAt,
-              elementTop,
-              elementHeight,
-              decimalPlaces,
-              disabled
-            )
-          ).toBe(scrollRatio);
-        });
-      }
-    });
-
-    describe.concurrent("when startAt=0 and endAt=0", () => {
-      const startAt = 0;
-      const endAt = 0;
-      const elementTopMap = new Map<number, number>([
+      ]),
+    },
+    {
+      startAt: 0,
+      endAt: 1,
+      elementHeight: 2000,
+      elementTopToScrollRatioMap: new Map([
         [1500, 0],
         [1000, 0],
         [500, 0.17],
@@ -161,143 +121,93 @@ describe.concurrent("calculateScrollRatio", () => {
         [-1500, 0.83],
         [-2000, 1],
         [-2500, 1],
-      ]);
-
-      for (const [elementTop, scrollRatio] of elementTopMap) {
-        it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
-          expect(
-            calculateScrollRatio(
-              windowHeight,
-              startAt,
-              endAt,
-              elementTop,
-              elementHeight,
-              decimalPlaces,
-              disabled
-            )
-          ).toBe(scrollRatio);
-        });
-      }
-    });
-  });
-
-  describe.concurrent("when element is smaller than viewport", () => {
-    const elementHeight = 500;
-
-    describe.concurrent("when startAt=1 and endAt=1 (default)", () => {
-      const startAt = 1;
-      const endAt = 1;
-      const elementTopMap = new Map<number, number>([
+      ]),
+    },
+    // Smaller than viewport
+    {
+      // Default
+      startAt: 1,
+      endAt: 0,
+      elementHeight: 500,
+      elementTopToScrollRatioMap: new Map([
         [1500, 0],
         [1000, 0],
         [500, 1],
         [0, 1],
         [-500, 1],
         [-1000, 1],
-      ]);
-
-      for (const [elementTop, scrollRatio] of elementTopMap) {
-        it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
-          expect(
-            calculateScrollRatio(
-              windowHeight,
-              startAt,
-              endAt,
-              elementTop,
-              elementHeight,
-              decimalPlaces,
-              disabled
-            )
-          ).toBe(scrollRatio);
-        });
-      }
-    });
-
-    describe.concurrent("when startAt=0 and endAt=1", () => {
-      const startAt = 0;
-      const endAt = 1;
-      const elementTopMap = new Map<number, number>([
+      ]),
+    },
+    {
+      startAt: 0,
+      endAt: 0,
+      elementHeight: 500,
+      elementTopToScrollRatioMap: new Map([
         [1500, 0],
         [1000, 0],
         [500, 1],
         [0, 1],
         [-500, 1],
         [-1000, 1],
-      ]);
-
-      for (const [elementTop, scrollRatio] of elementTopMap) {
-        it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
-          expect(
-            calculateScrollRatio(
-              windowHeight,
-              startAt,
-              endAt,
-              elementTop,
-              elementHeight,
-              decimalPlaces,
-              disabled
-            )
-          ).toBe(scrollRatio);
-        });
-      }
-    });
-
-    describe.concurrent("when startAt=1 and endAt=0", () => {
-      const startAt = 1;
-      const endAt = 0;
-      const elementTopMap = new Map<number, number>([
+      ]),
+    },
+    {
+      startAt: 1,
+      endAt: 1,
+      elementHeight: 500,
+      elementTopToScrollRatioMap: new Map([
         [1500, 0],
         [1000, 0],
         [500, 0.33],
         [0, 0.67],
         [-500, 1],
         [-1000, 1],
-      ]);
-
-      for (const [elementTop, scrollRatio] of elementTopMap) {
-        it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
-          expect(
-            calculateScrollRatio(
-              windowHeight,
-              startAt,
-              endAt,
-              elementTop,
-              elementHeight,
-              decimalPlaces,
-              disabled
-            )
-          ).toBe(scrollRatio);
-        });
-      }
-    });
-
-    describe.concurrent("when startAt=0 and endAt=0", () => {
-      const startAt = 0;
-      const endAt = 0;
-      const elementTopMap = new Map<number, number>([
+      ]),
+    },
+    {
+      startAt: 0,
+      endAt: 1,
+      elementHeight: 500,
+      elementTopToScrollRatioMap: new Map([
         [1500, 0],
         [1000, 0],
         [500, 0.33],
         [0, 0.67],
         [-500, 1],
         [-1000, 1],
-      ]);
+      ]),
+    },
+  ];
 
-      for (const [elementTop, scrollRatio] of elementTopMap) {
-        it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
-          expect(
-            calculateScrollRatio(
-              windowHeight,
-              startAt,
-              endAt,
-              elementTop,
-              elementHeight,
-              decimalPlaces,
-              disabled
-            )
-          ).toBe(scrollRatio);
-        });
+  configs.forEach(runCalculateScrollRatioTests);
+
+  function runCalculateScrollRatioTests({
+    elementHeight,
+    elementTopToScrollRatioMap,
+    endAt,
+    startAt,
+  }: CalculateScrollRatioTestConfig) {
+    describe.concurrent(
+      `when startAt:${startAt}, endAt:${endAt}, smallerThanViewport:${
+        elementHeight < windowHeight
+      }`,
+      () => {
+        for (const [elementTop, scrollRatio] of elementTopToScrollRatioMap) {
+          it(`element top position: ${elementTop} -> scrollRatio: ${scrollRatio}`, () => {
+            expect(
+              calculateScrollRatio(
+                windowHeight,
+                startAt,
+                endAt,
+                elementTop,
+                elementHeight,
+                decimalPlaces,
+                disabled
+              )
+            ).toBe(scrollRatio);
+          });
+        }
       }
-    });
-  });
+    );
+  }
 });

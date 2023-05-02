@@ -36,11 +36,7 @@ export default function useElementPosition(
 
   return useSyncExternalStore(
     createSubscriber("scroll", parentElement, disabled),
-    createElementPositionSnapshotGetter(
-      elementRef.current,
-      defaultPosition,
-      precision
-    ),
+    createElementPositionSnapshotGetter(elementRef, defaultPosition, precision),
     () => defaultPosition
   );
 }
@@ -48,14 +44,14 @@ export default function useElementPosition(
 // Snapshot getters
 
 export function createElementPositionSnapshotGetter(
-  element: HTMLElement | null,
+  elementRef: React.RefObject<HTMLElement>,
   defaultPosition: ElementPosition,
   decimalPlaces = -1
 ): () => ElementPosition {
   let position: ElementPosition = defaultPosition;
 
   return () => {
-    const domRect = element?.getBoundingClientRect();
+    const domRect = elementRef.current?.getBoundingClientRect();
     const height = roundToDecimal(
       domRect?.height || position.height,
       decimalPlaces

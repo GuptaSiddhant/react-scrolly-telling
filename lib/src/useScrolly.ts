@@ -3,7 +3,7 @@ import useWindowDimension from "./utils/window-dimension.js";
 import useElementPosition from "./utils/element-position.js";
 
 const DEFAULT_START_AT = 1;
-const DEFAULT_END_AT = 1;
+const DEFAULT_END_AT = 0;
 const DEFAULT_PRECISION = 2;
 const DEFAULT_DISABLED = false;
 
@@ -12,18 +12,18 @@ export interface ScrollyOptions {
   disabled?: boolean;
   /**
    * Value: 0 - 1 (default: 1)
-   * 0: start counting when the element enters the viewport.
-   * 0.5: start counting when the top of the element is at the middle of the viewport.
-   * 1: start counting when top of element is at the top of the viewport.
+   * 0: start counting when the element enters the viewport (entryRatio = 0).
+   * 0.5: start counting when the top of the element is at the middle of the viewport (entryRatio = 0.5).
+   * 1: start counting when top of element is at the top of the viewport (entryRatio = 1).
    */
-  startAt?: number;
+  startAtEntryRatio?: number;
   /**
-   * Value: 0 - 1 (default: 1)
-   * 0: stop counting when the element leaves the viewport
-   * 0.5: stop counting when the bottom of the element is at the middle of the viewport.
-   * 1: stop counting when the bottom of the element is at the bottom of the viewport.
+   * Value: 0 - 1 (default: 0)
+   * 0: stop counting when the bottom of the element is at the bottom of the viewport (exitRatio = 0).
+   * 0.5: stop counting when the bottom of the element is at the middle of the viewport (exitRatio = 0.5).
+   * 1: stop counting when the element leaves the viewport (exitRatio = 1).
    */
-  endAt?: number;
+  stopAtExitRatio?: number;
   /**
    * The number of decimal places (1-5) to round to for returned values. Default: 2.
    *
@@ -71,8 +71,8 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
   options?: ScrollyOptions
 ): ScrollyValues {
   const {
-    startAt = DEFAULT_START_AT,
-    endAt = DEFAULT_END_AT,
+    startAtEntryRatio,
+    stopAtExitRatio,
     disabled = DEFAULT_DISABLED,
     precision = DEFAULT_PRECISION,
     parentElement,
@@ -87,8 +87,8 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
 
   const scrollRatio: number = calculateScrollRatio(
     windowHeight,
-    startAt,
-    endAt,
+    startAtEntryRatio ?? DEFAULT_START_AT,
+    stopAtExitRatio ?? DEFAULT_END_AT,
     elementTop,
     elementHeight,
     decimalPlaces,
@@ -125,7 +125,7 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
 function calculateScrollRatio(
   windowHeight: number,
   startAt: number,
-  endAt: number,
+  stopAt: number,
   elementTop: number,
   elementHeight: number,
   decimalPlaces: number,
@@ -142,7 +142,7 @@ function calculateScrollRatio(
 
   const ratio =
     (windowHeight * (1 - normalisedStartAt) - elementTop) /
-    (elementHeight + windowHeight * (1 - endAt - normalisedStartAt));
+    (elementHeight + windowHeight * (stopAt - normalisedStartAt));
 
   return roundToDecimal(minmax(ratio, 0, 1), decimalPlaces);
 }
