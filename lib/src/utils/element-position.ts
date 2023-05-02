@@ -3,7 +3,7 @@ import { useSyncExternalStore } from "react";
 import createSubscriber from "./create-subscriber.js";
 import { roundToDecimal } from "./math.js";
 
-const DEFAULT_VALUE = 0;
+const FALLBACK_VALUE = 0;
 
 export type DOMRectKey = Exclude<keyof DOMRectReadOnly, "toJSON">;
 
@@ -25,7 +25,7 @@ export default function useElementPosition(
 ): ElementPosition {
   const {
     disabled,
-    defaultValue = DEFAULT_VALUE,
+    defaultValue = FALLBACK_VALUE,
     precision,
     parentElement,
   } = options;
@@ -36,25 +36,31 @@ export default function useElementPosition(
 
   return useSyncExternalStore(
     createSubscriber("scroll", parentElement, disabled),
-    createElementPositionSnapshotGetter(elementRef.current, precision),
+    createElementPositionSnapshotGetter(
+      elementRef.current,
+      defaultPosition,
+      precision
+    ),
     () => defaultPosition
   );
 }
 
 // Snapshot getters
 
-function createElementPositionSnapshotGetter(
+export function createElementPositionSnapshotGetter(
   element: HTMLElement | null,
+  defaultPosition: ElementPosition,
   decimalPlaces = -1
 ): () => ElementPosition {
-  let position: ElementPosition = {
-    height: DEFAULT_VALUE,
-    top: DEFAULT_VALUE,
-  };
+  let position: ElementPosition = defaultPosition;
 
   return () => {
-    const height = getElementDomRectValue(element, "height", decimalPlaces);
-    const top = getElementDomRectValue(element, "top", decimalPlaces);
+    const domRect = element?.getBoundingClientRect();
+    const height = roundToDecimal(
+      domRect?.height || position.height,
+      decimalPlaces
+    );
+    const top = roundToDecimal(domRect?.top || position.top, decimalPlaces);
 
     if (height !== position.height || top !== position.top) {
       position = { height, top };
@@ -62,15 +68,4 @@ function createElementPositionSnapshotGetter(
 
     return position;
   };
-}
-
-function getElementDomRectValue(
-  element: HTMLElement | null,
-  key: DOMRectKey,
-  decimalPlaces = -1
-): number {
-  return roundToDecimal(
-    element?.getBoundingClientRect()[key] || DEFAULT_VALUE,
-    decimalPlaces
-  );
 }
