@@ -1,6 +1,6 @@
 {
   "name": "react-scrolly-telling",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Create scrolly-telling animations in React with ease.",
   "type": "module",
   "keywords": [
@@ -35,7 +35,7 @@
     "build": "vite build",
     "dev": "vite build -w",
     "lint": "eslint src --ext ts,tsx",
-    "prepublishOnly": "yarn lint; yarn build",
+    "prepublishOnly": "yarn lint; yarn build; yarn test",
     "test": "vitest run --coverage",
     "test:watch": "vitest --coverage"
   },
