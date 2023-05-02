@@ -14,6 +14,8 @@
     "build": "yarn _lib build",
     "dev": "yarn _lib dev",
     "lint": "yarn _lib lint",
+    "test": "yarn _lib test",
+    "test:watch": "yarn _lib test:watch",
     "_app": "yarn workspace app",
     "app:build": "yarn _app build",
     "app:dev": "yarn _app dev",

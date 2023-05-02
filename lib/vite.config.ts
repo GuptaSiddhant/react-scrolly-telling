@@ -1,18 +1,14 @@
 import { defineConfig } from "vite";
 import dtsPlugin from "vite-plugin-dts";
-
 import { peerDependencies, devDependencies } from "./package.json";
-
-// Molecule components are added to this list automatically.
-const entryPoints: Record<string, string> = {
-  main: "src",
-  useScrolly: "src/useScrolly.ts",
-};
 
 export default defineConfig({
   build: {
     lib: {
-      entry: entryPoints,
+      entry: {
+        main: "src",
+        useScrolly: "src/useScrolly.ts",
+      },
       name: "react-scrolly-telling",
       formats: ["es", "cjs"],
       fileName: (format, entry) => `${entry}.${format === "es" ? "mjs" : "js"}`,
@@ -29,7 +25,6 @@ export default defineConfig({
     emptyOutDir: true,
   },
   plugins: [
-    // reactPlugin({ jsxRuntime: "classic" }),
     dtsPlugin({
       entryRoot: "src",
       noEmitOnError: true,
