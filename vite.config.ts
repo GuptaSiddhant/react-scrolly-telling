@@ -1,3 +1,4 @@
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dtsPlugin from "vite-plugin-dts";
 import { peerDependencies, devDependencies } from "./package.json";
@@ -7,7 +8,8 @@ export default defineConfig({
     lib: {
       entry: {
         index: "src",
-        useScrolly: "src/useScrolly.ts",
+        // useScrolly: "src/useScrolly.ts",
+        // provider: "src/ScrollyProvider.tsx",
       },
       name: "react-scrolly-telling",
       formats: ["es", "cjs"],
@@ -24,6 +26,7 @@ export default defineConfig({
     target: "es2016",
   },
   plugins: [
+    react(),
     dtsPlugin({
       entryRoot: "src",
       noEmitOnError: true,

@@ -11,7 +11,6 @@ export interface WindowDimensionOptions {
   defaultHeight?: number;
   defaultWidth?: number;
   precision?: number;
-  parentElement?: HTMLElement;
 }
 
 export interface WindowDimension {
@@ -27,7 +26,6 @@ export default function useWindowDimension(
     defaultHeight = FALLBACK_HEIGHT,
     defaultWidth = FALLBACK_WIDTH,
     precision,
-    parentElement,
   } = options;
   const defaultDimension: WindowDimension = {
     windowHeight: defaultHeight,
@@ -35,8 +33,12 @@ export default function useWindowDimension(
   };
 
   return useSyncExternalStore(
-    createSubscriber("resize", parentElement, disabled),
-    createWindowDimensionSnapshotGetter(defaultHeight, defaultWidth, precision),
+    createSubscriber("resize", disabled),
+    createWindowDimensionSnapshotGetter(
+      defaultHeight,
+      defaultWidth,
+      precision ?? -1
+    ),
     () => defaultDimension
   );
 }
@@ -46,7 +48,7 @@ export default function useWindowDimension(
 function createWindowDimensionSnapshotGetter(
   defaultHeight: number,
   defaultWidth: number,
-  decimalPlaces = -1
+  decimalPlaces: number
 ): () => WindowDimension {
   let dimensions: WindowDimension = {
     windowHeight: defaultHeight,

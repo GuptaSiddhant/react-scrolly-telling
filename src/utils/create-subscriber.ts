@@ -3,23 +3,14 @@ export type WindowSubscriber = (listener: WindowListener) => () => void;
 
 export default function createSubscriber(
   type: "resize" | "scroll",
-  element?: HTMLElement,
   disabled?: boolean
 ): WindowSubscriber {
-  return disabled ? subscribeToNoop : _createSubscriber(type, element);
+  return disabled ? subscribeToNoop : _createSubscriber(type);
 }
 
-function _createSubscriber(
-  type: "resize" | "scroll",
-  element?: HTMLElement
-): WindowSubscriber {
+function _createSubscriber(type: "resize" | "scroll"): WindowSubscriber {
   return (listener: WindowListener) => {
     listener();
-
-    if (element) {
-      element.addEventListener(type, listener, { passive: true });
-      return () => element.removeEventListener(type, listener);
-    }
 
     window.addEventListener(type, listener, { passive: true });
     return () => window.removeEventListener(type, listener);

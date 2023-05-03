@@ -11,7 +11,6 @@ export interface ElementPositionOptions {
   disabled?: boolean;
   defaultValue?: number;
   precision?: number;
-  parentElement?: HTMLElement;
 }
 
 export interface ElementPosition {
@@ -23,19 +22,14 @@ export default function useElementPosition(
   elementRef: React.RefObject<HTMLElement>,
   options: ElementPositionOptions = {}
 ): ElementPosition {
-  const {
-    disabled,
-    defaultValue = FALLBACK_VALUE,
-    precision,
-    parentElement,
-  } = options;
+  const { disabled, defaultValue = FALLBACK_VALUE, precision } = options;
   const defaultPosition: ElementPosition = {
     height: defaultValue,
     top: defaultValue,
   };
 
   return useSyncExternalStore(
-    createSubscriber("scroll", parentElement, disabled),
+    createSubscriber("scroll", disabled),
     createElementPositionSnapshotGetter(elementRef, defaultPosition, precision),
     () => defaultPosition
   );
