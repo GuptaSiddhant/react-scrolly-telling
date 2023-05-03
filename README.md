@@ -22,27 +22,6 @@ pnpm add react-scrolly-telling
 
 The core hook tracks the position of an element while is scrolls with respect to the viewport (or other parent element). It returns the following values: `scrollRatio`, `entryRatio`, `exitRatio` and more. These values can be used to calculate styles for animations or time for video playback.
 
-### Importing
-
-The package supports tree-shaking, so you can import only the parts you need.
-If your setup supports `nodenext` module resolution, you can import the hook:
-
-```tsx
-import useScrolly from "react-scrolly-telling/useScrolly";
-```
-
-else, it can be imported from the dist:
-
-```tsx
-import useScrolly from "react-scrolly-telling/dist/useScrolly";
-```
-
-If nothing works, or tree-shaking is not important, you can import the whole package:
-
-```tsx
-import { useScrolly } from "react-scrolly-telling";
-```
-
 ### Usage
 
 ```tsx

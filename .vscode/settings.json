@@ -1,0 +1,12 @@
+{
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": false,
+    "explorer.fileNesting.patterns": {
+        "package.json": "package-lock.json, yarn*, .gitignore, .yarnrc.*, tsconfig.*, jsconfig.*, prettier*, .prettier*, lint-staged.*",
+        ".eslintrc.json": ".eslint*",
+        "vite.config.js": "vitest.config.*",
+        "*.mjs": "$(capture).mjs.map, $(capture).d.ts, $(capture).js, $(capture).cjs, $(capture).js.map, $(capture).d.ts.map",
+        "*.ts": "$(capture).test.ts*",
+        "*.tsx": "$(capture).test.ts*",
+    },
+}

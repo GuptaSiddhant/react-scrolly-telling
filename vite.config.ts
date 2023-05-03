@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        main: "src",
+        index: "src",
         useScrolly: "src/useScrolly.ts",
       },
       name: "react-scrolly-telling",

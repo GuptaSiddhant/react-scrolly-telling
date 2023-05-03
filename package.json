@@ -12,8 +12,8 @@
   ],
   "author": "Siddhant Gupta <me@guptasiddhant.com>",
   "license": "MIT",
-  "main": "dist/main.cjs",
-  "module": "dist/main.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -22,12 +22,14 @@
     "./package.json": "./package.json",
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/main.mjs",
-      "default": "./dist/main.cjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.cjs"
     },
     "./useScrolly": {
       "types": "./dist/useScrolly.d.ts",
       "import": "./dist/useScrolly.mjs",
+      "require": "./dist/useScrolly.cjs",
       "default": "./dist/useScrolly.cjs"
     }
   },
