@@ -5,14 +5,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: ["main"]
-    paths:
-      - "lib/**"
-      - ".github/workflows/publish.yaml"
   pull_request:
     branches: ["main"]
-    paths:
-      - "lib/**"
-      - ".github/workflows/publish.yaml"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,10 +24,5 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Automated releases for npm packages.
-        uses: mikeal/merge-release@v4.0.7
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          DEPLOY_DIR: lib
-          SRC_PACKAGE_DIR: lib
+      - name: Publish to NPM
+        run: npm publish
