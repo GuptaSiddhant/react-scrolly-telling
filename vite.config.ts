@@ -21,9 +21,9 @@ export default defineConfig({
         ...Object.keys(peerDependencies),
         ...Object.keys(devDependencies),
       ],
-      output: { experimentalMinChunkSize: 1000 },
     },
     target: "es2016",
+    copyPublicDir: false,
   },
   plugins: [
     react(),

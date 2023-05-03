@@ -1,5 +1,17 @@
 import { renderHook } from "@testing-library/react";
 import useScrolly, { __EXPORTS_FOR_TESTS_ONLY__ } from "./useScrolly.js";
+import ScrollyProvider from "./ScrollyProvider.jsx";
+
+beforeEach(() => {
+  // IntersectionObserver isn't available in test environment
+  const mockIntersectionObserver = vi.fn();
+  mockIntersectionObserver.mockReturnValue({
+    observe: () => null,
+    unobserve: () => null,
+    disconnect: () => null,
+  });
+  window.IntersectionObserver = mockIntersectionObserver;
+});
 
 describe("useScrolly", () => {
   it("render hook", () => {
@@ -20,10 +32,7 @@ describe("useScrolly", () => {
     document.body.appendChild(scrollGap.cloneNode());
 
     const ref = { current: element };
-    const { result } = renderHook(() => useScrolly(ref));
-
-    expect(result.current.windowHeight).toBe(1000);
-    expect(result.current.windowWidth).toBe(1000);
+    renderHook(() => useScrolly(ref), { wrapper: ScrollyProvider });
   });
 });
 
@@ -47,7 +56,6 @@ describe.concurrent("calculateEntryExitRatio", () => {
 describe("calculateScrollRatio", () => {
   const windowHeight = 1000;
   const decimalPlaces = 2;
-  const disabled = false;
 
   interface CalculateScrollRatioTestConfig {
     startAt: number;
@@ -201,8 +209,7 @@ describe("calculateScrollRatio", () => {
                 endAt,
                 elementTop,
                 elementHeight,
-                decimalPlaces,
-                disabled
+                decimalPlaces
               )
             ).toBe(scrollRatio);
           });

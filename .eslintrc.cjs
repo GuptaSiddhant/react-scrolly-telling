@@ -14,4 +14,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
+  rules: {
+    "@typescript-eslint/no-empty-function": "off",
+  },
 };

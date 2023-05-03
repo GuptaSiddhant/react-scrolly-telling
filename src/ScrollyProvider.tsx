@@ -1,3 +1,4 @@
+import useElementIntersection from "./utils/element-intersection.js";
 import { ScrollyContext } from "./utils/scrolly-context.js";
 import useWindowDimension from "./utils/window-dimension.js";
 
@@ -28,9 +29,12 @@ export default function ScrollyProvider({
     defaultHeight: defaultWindowDimension?.windowHeight,
     defaultWidth: defaultWindowDimension?.windowWidth,
   });
+  const observeElementIntersection = useElementIntersection();
 
   return (
-    <ScrollyContext.Provider value={windowDimension}>
+    <ScrollyContext.Provider
+      value={{ ...windowDimension, observeElementIntersection }}
+    >
       {children}
     </ScrollyContext.Provider>
   );

@@ -1,11 +1,11 @@
 import { minmax, roundToDecimal } from "./utils/math.js";
 import useElementPosition from "./utils/element-position.js";
 import useScrollyContext from "./utils/scrolly-context.js";
+import useElementVisible from "./utils/element-visible.js";
 
 const DEFAULT_START_AT = 1;
 const DEFAULT_END_AT = 0;
 const DEFAULT_PRECISION = 2;
-const DEFAULT_DISABLED = false;
 
 export interface ScrollyOptions {
   /**  Disable the scrolly effect. Always returns 0 as scroll ratio value. */
@@ -40,10 +40,8 @@ export interface ScrollyValues {
   readonly entryRatio: number;
   /** The ratio of element's exit from the viewport. The number value ranges from 0 to 1. */
   readonly exitRatio: number;
-  /** Current height of window/viewport in px. */
-  readonly windowHeight: number;
-  /** Current width of window/viewport in px. */
-  readonly windowWidth: number;
+  /** The visibility of element in the viewport. True when a portion of element is in the viewport. */
+  readonly isVisible: boolean;
 }
 
 /**
@@ -65,17 +63,14 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
   ref: React.RefObject<E>,
   options?: ScrollyOptions
 ): ScrollyValues {
-  const {
-    startAtEntryRatio,
-    stopAtExitRatio,
-    disabled = DEFAULT_DISABLED,
-    precision = DEFAULT_PRECISION,
-  } = options || {};
-  const decimalPlaces = minmax(precision, 1, 6);
+  const { startAtEntryRatio, stopAtExitRatio, precision, disabled } =
+    options || {};
+  const decimalPlaces = minmax(precision ?? DEFAULT_PRECISION, 1, 6);
 
-  const { windowHeight, windowWidth } = useScrollyContext();
+  const isVisible = useElementVisible(ref);
+  const { windowHeight } = useScrollyContext();
   const { top: elementTop, height: elementHeight } = useElementPosition(ref, {
-    disabled,
+    disabled: disabled ?? !isVisible,
   });
 
   const scrollRatio: number = calculateScrollRatio(
@@ -84,8 +79,7 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
     stopAtExitRatio ?? DEFAULT_END_AT,
     elementTop,
     elementHeight,
-    decimalPlaces,
-    disabled
+    decimalPlaces
   );
 
   const entryRatio: number = calculateEntryExitRatio(
@@ -104,8 +98,7 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
     entryRatio,
     exitRatio,
     scrollRatio,
-    windowHeight,
-    windowWidth,
+    isVisible,
   } as const;
 }
 
@@ -121,10 +114,9 @@ function calculateScrollRatio(
   stopAt: number,
   elementTop: number,
   elementHeight: number,
-  decimalPlaces: number,
-  disabled: boolean
+  decimalPlaces: number
 ) {
-  if (disabled || elementHeight <= 0) return 0;
+  if (elementHeight <= 0) return 0;
 
   /**
    * If the element is smaller than the window,
@@ -147,11 +139,11 @@ function calculateScrollRatio(
  * - 1.0: the part of the element has reached top of the viewport.
  */
 function calculateEntryExitRatio(
-  elementPartPosition: number,
+  elementPosition: number,
   windowHeight: number,
   decimalPlaces: number
 ) {
-  const distanceRatio = elementPartPosition / windowHeight;
+  const distanceRatio = elementPosition / windowHeight;
   return minmax(roundToDecimal(1 - distanceRatio, decimalPlaces), 0, 1);
 }
 
