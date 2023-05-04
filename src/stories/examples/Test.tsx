@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ScrollyProvider, useScrolly } from "../../index.js";
+import useScrolly, { ScrollyProvider } from "../../index.js";
 
 function Container({ id }: { id: string }) {
   const ref = useRef(null);

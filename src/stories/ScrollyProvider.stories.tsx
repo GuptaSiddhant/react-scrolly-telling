@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import ScrollyProvider from "../ScrollyProvider.js";
-import useScrollyContext from "../utils/scrolly-context.js";
+import { useScrollyRootContext } from "../utils/scrolly-context.js";
 
 const component = ScrollyProvider;
 type ComponentType = typeof component;
@@ -20,7 +20,7 @@ export const Preview: StoryObj<ComponentType> = {
 };
 
 function App() {
-  const { windowHeight, windowWidth } = useScrollyContext();
+  const { windowHeight, windowWidth } = useScrollyRootContext();
 
   const height = windowHeight.toString();
   const width = windowWidth.toString();

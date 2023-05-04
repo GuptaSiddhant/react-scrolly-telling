@@ -8,6 +8,8 @@ const DEFAULT_START_AT = 1;
 const DEFAULT_END_AT = 0;
 const DEFAULT_PRECISION = 2;
 
+export type { ScrollyOptions, ScrollyValues };
+
 /**
  * Hook to create a scrolly-telling effect.
  *
