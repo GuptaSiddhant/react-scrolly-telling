@@ -1,0 +1,42 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components / ScrollyProvider / Docs" />
+
+# ScrollyProvider
+
+It provides a global context to track the scroll position of the elements. It is required to using any functionality.
+
+It is responsible for tracking scoll-event listeners and removing the listerens for the elements that are not in the viewport.
+
+It also tracks the window dimensions and updates the context when the window is resized.
+
+## Usage
+
+```tsx
+import { ScrollyProvider } from "react-scrolly-telling";
+
+function Root() {
+  return (
+    <ScrollyProvider>
+      <App />
+    </ScrollyProvider>
+  );
+}
+```
+
+A default object of window dimensions can be passed as a prop to `ScrollyProvider` to set the default values for SSR.
+
+```tsx
+import { ScrollyProvider } from "react-scrolly-telling";
+
+function Root() {
+  return (
+    <ScrollyProvider defaultWindowDimension={{
+        windowHeight: 800;
+        windowWidth: 1024;
+    }}>
+      <App />
+    </ScrollyProvider>
+  );
+}
+```

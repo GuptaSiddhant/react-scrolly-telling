@@ -23,7 +23,21 @@ import { Meta } from "@storybook/blocks";
 
 ## Usage
 
+```ts
+// App.tsx or root.tsx
+import { ScrollyProvider } from "react-scrolly-telling";
+
+function App() {
+  return (
+    <ScrollyProvider>
+      <MyScrollyComponent />
+    </ScrollyProvider>
+  );
+}
+```
+
 ```tsx
+// MyScrollyComponent.tsx
 import { useScrolly } from "react-scrolly-telling";
 
 function MyScrollyComponent() {
@@ -43,19 +57,3 @@ function MyScrollyComponent() {
   );
 }
 ```
-
-<style>
-  {`
-    .subheading {
-      --mediumdark: '#999999';
-      font-weight: 700;
-      font-size: 13px;
-      color: #999;
-      letter-spacing: 6px;
-      line-height: 24px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      margin-top: 40px;
-    }
-  `}
-</style>

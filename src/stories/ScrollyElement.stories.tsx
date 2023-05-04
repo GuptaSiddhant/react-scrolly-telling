@@ -4,20 +4,44 @@ import {
   scrollSpacerDecorator,
   scrollyContextDecorator,
 } from "./decorators.jsx";
-import ScrollyElement from "../element.jsx";
+import ScrollyElement, { useScrollyElementContext } from "../element.jsx";
 
 const component = ScrollyElement;
 type ComponentType = typeof component;
 
 export default {
-  title: "ScrollyElement",
+  title: "Components / ScrollyElement",
   component,
-  tags: ["autodocs"],
   decorators: [scrollyContextDecorator, scrollSpacerDecorator],
-  parameters: {
-    layout: "fullscreen",
-  },
 } satisfies Meta<ComponentType>;
+
+export const Default: StoryObj<ComponentType> = {
+  args: {
+    horizontal: false,
+    style: {
+      gap: "1rem",
+      padding: "1rem",
+      display: "flex",
+      flexDirection: "column",
+    },
+    children: Array(5)
+      .fill(null)
+      .map((_, i) => {
+        const key = `slide-${i}`;
+        return (
+          <Slide
+            index={i}
+            key={key}
+            style={{
+              height: "80vh",
+              position: "sticky",
+              top: "1rem",
+            }}
+          />
+        );
+      }),
+  },
+};
 
 export const Horizontal: StoryObj<ComponentType> = {
   args: {
@@ -27,12 +51,20 @@ export const Horizontal: StoryObj<ComponentType> = {
       .fill(null)
       .map((_, i) => {
         const key = `slide-${i}`;
-        return <App index={i} key={key} />;
+        return <Slide index={i} key={key} />;
       }),
   },
 };
 
-function App({ index }: { index: number }) {
+function Slide({
+  index,
+  style,
+}: {
+  index: number;
+  style?: React.CSSProperties;
+}) {
+  const { scrollRatio } = useScrollyElementContext();
+
   return (
     <div
       style={{
@@ -45,9 +77,10 @@ function App({ index }: { index: number }) {
         justifyContent: "center",
         alignItems: "center",
         color: "black",
+        ...style,
       }}
     >
-      This is slide {index + 1}.
+      This is slide {index + 1}. Scrolled {(scrollRatio * 100).toFixed(2)}%.
     </div>
   );
 }

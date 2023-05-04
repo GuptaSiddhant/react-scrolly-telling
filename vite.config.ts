@@ -10,12 +10,17 @@ export default defineConfig({
         index: "src",
         element: "src/element.tsx",
         provider: "src/provider.tsx",
+        video: "src/video.tsx",
       },
       name: "react-scrolly-telling",
       formats: ["es", "cjs"],
       fileName: (format, entry) =>
         `${entry}.${format === "es" ? "mjs" : "cjs"}`,
     },
+    chunkSizeWarningLimit: 5,
+    target: "es2016",
+    copyPublicDir: false,
+
     rollupOptions: {
       external: [
         "react/jsx-runtime",
@@ -29,10 +34,13 @@ export default defineConfig({
           "react-dom": "ReactDOM",
           "react/jsx-runtime": "react/jsx-runtime",
         },
+
+        chunkFileNames: (info) => {
+          const cjs = info.exports.some((e) => e.length > 5);
+          return `[name].${cjs ? "cjs" : "mjs"}`;
+        },
       },
     },
-    target: "es2016",
-    copyPublicDir: false,
   },
   plugins: [
     react(),

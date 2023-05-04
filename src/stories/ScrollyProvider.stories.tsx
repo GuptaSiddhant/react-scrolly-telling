@@ -7,12 +7,14 @@ const component = ScrollyProvider;
 type ComponentType = typeof component;
 
 export default {
-  title: "ScrollyProvider",
+  title: "Components / ScrollyProvider",
   component,
   argTypes: {
     children: { type: "function" },
   },
-  tags: ["autodocs"],
+  parameters: {
+    layout: "centered",
+  },
 } satisfies Meta<ComponentType>;
 
 export const Preview: StoryObj<ComponentType> = {
