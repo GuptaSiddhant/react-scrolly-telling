@@ -37,7 +37,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "yarn"
+      - uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          path: node_modules
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build storybook
