@@ -5,6 +5,6 @@ export default create({
 
   brandTitle: "React ScrollyTelling",
   brandUrl: "https://react-scrolly-telling.js.org",
-  brandImage: "/RST.png",
+  brandImage: "./RST.png",
   brandTarget: "_self",
 });
