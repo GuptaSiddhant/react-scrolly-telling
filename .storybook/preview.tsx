@@ -4,7 +4,7 @@ import {
   Title,
   Subtitle,
   Description,
-  Primary,  
+  Primary,
   ArgTypes,
 } from "@storybook/blocks";
 
@@ -17,6 +17,7 @@ const preview: Preview = {
         date: /Date$/,
       },
     },
+    layout: "fullscreen",
     docs: {
       page: () => (
         <>

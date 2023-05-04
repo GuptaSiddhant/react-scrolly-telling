@@ -10,7 +10,6 @@ export interface ScrollyHorizontalElementProps {
   children: React.ReactNode;
   preChildren?: React.ReactNode;
   postChildren?: React.ReactNode;
-  precision?: number;
 
   style?: React.CSSProperties;
 }
@@ -51,7 +50,6 @@ const ScrollyHorizontalElement = forwardRef<
     children,
     preChildren,
     postChildren,
-    precision,
     ...rest
   } = props;
 
@@ -59,12 +57,15 @@ const ScrollyHorizontalElement = forwardRef<
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollyValues = useScrollyHorizontalElementLayout(
     containerRef,
-    contentRef,
-    precision
+    contentRef
   );
 
   return (
-    <div className="scrolly-horizontal-container" style={styles.container}>
+    <div
+      ref={containerRef}
+      className="scrolly-horizontal-container"
+      style={styles.container}
+    >
       <div className="scrolly-horizontal-sticky" style={styles.sticky}>
         <ScrollyElementContext.Provider value={scrollyValues}>
           {preChildren}
@@ -88,13 +89,11 @@ export default ScrollyHorizontalElement;
 
 function useScrollyHorizontalElementLayout(
   containerRef: React.RefObject<HTMLDivElement>,
-  contentRef: React.RefObject<HTMLDivElement>,
-  precision?: number
+  contentRef: React.RefObject<HTMLDivElement>
 ) {
-  const scrollyValues = useScrolly(contentRef, {
-    precision,
-    startAtEntryRatio: 1,
-    stopAtExitRatio: 0,
+  const timeRef = useRef(0);
+  const scrollyValues = useScrolly(containerRef, {
+    precision: 3,
   });
   const { windowWidth, windowHeight, scrollRatio } = scrollyValues;
 
@@ -111,10 +110,22 @@ function useScrollyHorizontalElementLayout(
       targetEnd: scrollDistance,
     }).toFixed(0);
 
-    contentRef.current?.style.setProperty(
-      "transform",
-      `translateX(-${translateValue}px)`
-    );
+    const frame = window.requestAnimationFrame((time) => {
+      const delta = time - timeRef.current;
+      timeRef.current = time;
+
+      contentRef.current?.animate(
+        { transform: `translateX(-${translateValue}px)` },
+        {
+          fill: "forwards",
+          easing: "ease-in-out",
+          duration: 100,
+          playbackRate: 1 + delta / 100,
+        }
+      );
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [windowHeight, windowWidth, scrollRatio, contentRef, containerRef]);
 
   return scrollyValues;

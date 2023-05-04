@@ -1,6 +1,6 @@
 {
   "name": "react-scrolly-telling",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Create scrolly-telling animations in React with ease.",
   "type": "module",
   "keywords": [

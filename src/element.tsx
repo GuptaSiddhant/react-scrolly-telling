@@ -20,8 +20,8 @@ export type ScrollyElementProps<T extends React.ElementType> = {
  * A component that can be used to create a scrolly-telling element.
  */
 const ScrollyElement = forwardRef<HTMLDivElement, ScrollyElementProps<"div">>(
-  (props, ref): JSX.Element | null => {
-    if (!props.horizontal) {
+  ({ horizontal, ...props }, ref): JSX.Element | null => {
+    if (!horizontal) {
       return <ScrollyVerticalElement {...props} ref={ref} />;
     }
 
