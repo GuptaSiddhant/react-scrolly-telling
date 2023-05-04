@@ -39,7 +39,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: false
-          custom_tag: "v${{ steps.publish.outputs.version }}"
+          custom_tag: ${{ steps.publish.outputs.version }}
       - if: ${{ steps.tag_version.outputs.new_tag }}
         name: Create a GitHub release
         uses: ncipollo/release-action@v1
