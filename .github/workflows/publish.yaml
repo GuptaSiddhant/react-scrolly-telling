@@ -32,7 +32,6 @@ jobs:
         uses: JS-DevTools/npm-publish@v2
         with:
           token: ${{ secrets.NPM_AUTH_TOKEN }}
-          provenance: true
       - if: ${{ steps.publish.outputs.type }}
         name: Bump version and push tag
         id: tag_version
