@@ -8,8 +8,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: "src",
-        // useScrolly: "src/useScrolly.ts",
-        // provider: "src/ScrollyProvider.tsx",
+        element: "src/ScrollyElement.tsx",
       },
       name: "react-scrolly-telling",
       formats: ["es", "cjs"],
@@ -18,9 +17,17 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
+        "react/jsx-runtime",
         ...Object.keys(peerDependencies),
         ...Object.keys(devDependencies),
       ],
+      output: {
+        globals: {
+          react: "react",
+          "react-dom": "ReactDOM",
+          "react/jsx-runtime": "react/jsx-runtime",
+        },
+      },
     },
     target: "es2016",
     copyPublicDir: false,

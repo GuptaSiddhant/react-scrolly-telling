@@ -27,11 +27,11 @@
       "require": "./dist/index.cjs",
       "default": "./dist/index.cjs"
     },
-    "./useScrolly": {
-      "types": "./dist/useScrolly.d.ts",
-      "import": "./dist/useScrolly.mjs",
-      "require": "./dist/useScrolly.cjs",
-      "default": "./dist/useScrolly.cjs"
+    "./element": {
+      "types": "./dist/element.d.ts",
+      "import": "./dist/element.mjs",
+      "require": "./dist/element.cjs",
+      "default": "./dist/element.cjs"
     }
   },
   "scripts": {

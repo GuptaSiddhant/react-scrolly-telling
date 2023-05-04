@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 
-import useScrollyContext from "./scrolly-context.js";
+import { useScrollyRootContext } from "./scrolly-context.js";
 
 export default function useElementVisible(ref: React.RefObject<HTMLElement>) {
-  const { observeElementIntersection } = useScrollyContext();
+  const { observeElementIntersection } = useScrollyRootContext();
 
   const [isVisible, setIsVisible] = useState(false);
 

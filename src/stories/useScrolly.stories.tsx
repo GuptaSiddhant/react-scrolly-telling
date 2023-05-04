@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { useRef } from "react";
 
 import { scrollyContextDecorator } from "./decorators.jsx";
-import useScrolly, { type ScrollyOptions } from "../useScrolly.js";
+import useScrolly, { type ScrollyOptions } from "../utils/use-scrolly.js";
 
 function Component(props: ScrollyOptions) {
   const ref = useRef<HTMLDivElement>(null);

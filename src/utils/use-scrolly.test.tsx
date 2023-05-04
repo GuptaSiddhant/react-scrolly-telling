@@ -1,6 +1,7 @@
 import { renderHook } from "@testing-library/react";
-import useScrolly, { __EXPORTS_FOR_TESTS_ONLY__ } from "./useScrolly.js";
-import ScrollyProvider from "./ScrollyProvider.jsx";
+
+import ScrollyProvider from "../ScrollyProvider.jsx";
+import useScrolly, { __EXPORTS_FOR_TESTS_ONLY__ } from "./use-scrolly.js";
 
 beforeEach(() => {
   // IntersectionObserver isn't available in test environment

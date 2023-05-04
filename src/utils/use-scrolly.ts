@@ -1,48 +1,12 @@
-import { minmax, roundToDecimal } from "./utils/math.js";
-import useElementPosition from "./utils/element-position.js";
-import useScrollyContext from "./utils/scrolly-context.js";
-import useElementVisible from "./utils/element-visible.js";
+import { minmax, roundToDecimal } from "./math.js";
+import useElementPosition from "./element-position.js";
+import useElementVisible from "./element-visible.js";
+import { useScrollyRootContext } from "./scrolly-context.js";
+import type { ScrollyOptions, ScrollyValues } from "./types.js";
 
 const DEFAULT_START_AT = 1;
 const DEFAULT_END_AT = 0;
 const DEFAULT_PRECISION = 2;
-
-export interface ScrollyOptions {
-  /**  Disable the scrolly effect. Always returns 0 as scroll ratio value. */
-  disabled?: boolean;
-  /**
-   * Value: 0 - 1 (default: 1)
-   * 0: start counting when the element enters the viewport (entryRatio = 0).
-   * 0.5: start counting when the top of the element is at the middle of the viewport (entryRatio = 0.5).
-   * 1: start counting when top of element is at the top of the viewport (entryRatio = 1).
-   */
-  startAtEntryRatio?: number;
-  /**
-   * Value: 0 - 1 (default: 0)
-   * 0: stop counting when the bottom of the element is at the bottom of the viewport (exitRatio = 0).
-   * 0.5: stop counting when the bottom of the element is at the middle of the viewport (exitRatio = 0.5).
-   * 1: stop counting when the element leaves the viewport (exitRatio = 1).
-   */
-  stopAtExitRatio?: number;
-  /**
-   * The number of decimal places (1-5) to round to for returned values. Default: 2.
-   *
-   * Warning: Increasing the precision will cause the calculations depending
-   * scroll ratio to be recalculated more often by a multiple of 10.
-   */
-  precision?: number;
-}
-
-export interface ScrollyValues {
-  /** The ratio of element's scroll that has taken place. The numeric value ranges from 0 to 1. */
-  readonly scrollRatio: number;
-  /** The ratio of element's entry in the viewport. The number value ranges from 0 to 1. */
-  readonly entryRatio: number;
-  /** The ratio of element's exit from the viewport. The number value ranges from 0 to 1. */
-  readonly exitRatio: number;
-  /** The visibility of element in the viewport. True when a portion of element is in the viewport. */
-  readonly isVisible: boolean;
-}
 
 /**
  * Hook to create a scrolly-telling effect.
@@ -68,7 +32,7 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
   const decimalPlaces = minmax(precision ?? DEFAULT_PRECISION, 1, 6);
 
   const isVisible = useElementVisible(ref);
-  const { windowHeight } = useScrollyContext();
+  const { windowHeight, windowWidth } = useScrollyRootContext();
   const { top: elementTop, height: elementHeight } = useElementPosition(ref, {
     disabled: disabled ?? !isVisible,
   });
@@ -99,6 +63,8 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
     exitRatio,
     scrollRatio,
     isVisible,
+    windowHeight,
+    windowWidth,
   } as const;
 }
 
