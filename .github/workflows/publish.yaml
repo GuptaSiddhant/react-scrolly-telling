@@ -17,6 +17,9 @@ jobs:
   publish-to-npm:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    environment:
+      name: npm-version
+      url: "Released: ${{ steps.publish.outputs.id }}"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,4 +28,23 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Publish to NPM
-        run: npm publish
+        id: publish
+        uses: JS-DevTools/npm-publish@v2
+        with:
+          token: ${{ secrets.NPM_AUTH_TOKEN }}
+          provenance: true
+      - if: ${{ steps.publish.outputs.type }}
+        name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: false
+          custom_tag: "v${{ steps.publish.outputs.version }}"
+      - if: ${{ steps.tag_version.outputs.new_tag }}
+        name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
