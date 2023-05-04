@@ -1,5 +1,5 @@
 import { Decorator } from "@storybook/react";
-import ScrollyProvider from "../ScrollyProvider.jsx";
+import ScrollyProvider from "../provider.jsx";
 
 export const scrollyContextDecorator: Decorator<unknown> = (Story) => (
   <ScrollyProvider>

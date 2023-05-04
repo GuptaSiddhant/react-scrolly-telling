@@ -1,32 +1,5 @@
-import { useRef } from "react";
-import useScrolly, { ScrollyProvider } from "../../index.js";
-
-function Container({ id }: { id: string }) {
-  const ref = useRef(null);
-  const result = useScrolly(ref);
-
-  return (
-    <div
-      id={id}
-      ref={ref}
-      style={{
-        height: "150vh",
-        padding: "20px",
-        border: "2px solid gray",
-        borderTop: "4px solid red",
-        borderBottom: "4px solid blue",
-        borderRadius: "4px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
-      <pre>{JSON.stringify(result, null, 2)}</pre>
-      <pre>{JSON.stringify(result, null, 2)}</pre>
-      <pre>{JSON.stringify(result, null, 2)}</pre>
-    </div>
-  );
-}
+import { ScrollyProvider } from "../../index.js";
+import ScrollyElement, { useScrollyElementContext } from "../../element.jsx";
 
 export function App() {
   return (
@@ -40,4 +13,33 @@ export function App() {
       <div style={{ height: "50vh" }} />
     </ScrollyProvider>
   );
+}
+
+function Container({ id }: { id: string }) {
+  return (
+    <ScrollyElement
+      id={id}
+      style={{
+        height: "150vh",
+        padding: "20px",
+        border: "2px solid gray",
+        borderTop: "4px solid red",
+        borderBottom: "4px solid blue",
+        borderRadius: "4px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
+      <ContainerContent />
+      <ContainerContent />
+      <ContainerContent />
+    </ScrollyElement>
+  );
+}
+
+function ContainerContent() {
+  const result = useScrollyElementContext();
+
+  return <pre>{JSON.stringify(result, null, 2)}</pre>;
 }

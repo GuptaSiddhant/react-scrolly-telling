@@ -1,5 +1,5 @@
 // ScrollyContext
-export { default as ScrollyProvider } from "./ScrollyProvider.jsx";
+export { default as ScrollyProvider } from "./provider.jsx";
 export { useScrollyElementContext } from "./utils/scrolly-context.js";
 
 // useScrolly

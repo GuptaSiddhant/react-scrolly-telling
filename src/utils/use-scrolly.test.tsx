@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 
-import ScrollyProvider from "../ScrollyProvider.jsx";
+import ScrollyProvider from "../provider.jsx";
 import useScrolly, { __EXPORTS_FOR_TESTS_ONLY__ } from "./use-scrolly.js";
 
 beforeEach(() => {

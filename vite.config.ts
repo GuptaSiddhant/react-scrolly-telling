@@ -8,7 +8,8 @@ export default defineConfig({
     lib: {
       entry: {
         index: "src",
-        element: "src/ScrollyElement.tsx",
+        element: "src/element.tsx",
+        provider: "src/provider.tsx",
       },
       name: "react-scrolly-telling",
       formats: ["es", "cjs"],
@@ -22,6 +23,7 @@ export default defineConfig({
         ...Object.keys(devDependencies),
       ],
       output: {
+        exports: "named",
         globals: {
           react: "react",
           "react-dom": "ReactDOM",
