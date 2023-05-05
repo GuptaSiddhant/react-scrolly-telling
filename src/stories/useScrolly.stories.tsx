@@ -36,7 +36,7 @@ function Component(props: ScrollyOptions) {
 type ComponentType = typeof Component;
 
 export default {
-  title: "Hooks / useScrolly",
+  title: "Helpers / useScrolly",
   component: Component,
   decorators: [scrollyContextDecorator],
   args: { disabled: false },

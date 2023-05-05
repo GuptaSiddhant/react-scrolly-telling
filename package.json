@@ -33,6 +33,12 @@
       "require": "./dist/element.cjs",
       "default": "./dist/element.cjs"
     },
+    "./interpolate": {
+      "types": "./dist/interpolate.d.ts",
+      "import": "./dist/interpolate.mjs",
+      "require": "./dist/interpolate.cjs",
+      "default": "./dist/interpolate.cjs"
+    },
     "./video": {
       "types": "./dist/video.d.ts",
       "import": "./dist/video.mjs",

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { interpolate, minmax, roundToDecimal } from "./math.js";
+import { minmax, roundToDecimal } from "./math.js";
 
 describe.concurrent("minmax", () => {
   it("should clamp a value between a min and max", () => {
@@ -46,72 +45,5 @@ describe.concurrent("roundToDecimal", () => {
     expect(roundToDecimal(12345.5, -4)).toBe(10000);
     expect(roundToDecimal(12345.5, -5)).toBe(0);
     expect(roundToDecimal(62345.5, -5)).toBe(100000);
-  });
-});
-
-describe.concurrent("interpolate", () => {
-  it("should interpolate a value with default source range [0 1]", () => {
-    expect(
-      interpolate(0.5, {
-        targetStart: 0,
-        targetEnd: 100,
-      })
-    ).toBe(50);
-  });
-
-  it("should return same value when source start and end are same", () => {
-    expect(
-      interpolate(0.5, {
-        sourceStart: 2,
-        sourceEnd: 2,
-        targetStart: 0,
-        targetEnd: 100,
-      })
-    ).toBe(0.5);
-  });
-
-  it("should return the target-start value when target start and end are same", () => {
-    expect(
-      interpolate(0.5, {
-        targetStart: 100,
-        targetEnd: 100,
-      })
-    ).toBe(100);
-  });
-
-  it("should interpolate a value between two ranges", () => {
-    expect(
-      interpolate(0.5, {
-        sourceStart: 0,
-        sourceEnd: 1,
-        targetStart: 0,
-        targetEnd: 100,
-      })
-    ).toBe(50);
-  });
-
-  it("should return same value with unsupported method", () => {
-    expect(
-      interpolate(0.5, {
-        sourceStart: 0,
-        sourceEnd: 1,
-        targetStart: 0,
-        targetEnd: 100,
-        // @ts-expect-error
-        method: "unsupported",
-      })
-    ).toBe(0.5);
-  });
-
-  it("should interpolate a value with linear method", () => {
-    expect(
-      interpolate(0.5, {
-        sourceStart: 0,
-        sourceEnd: 1,
-        targetStart: 0,
-        targetEnd: -1,
-        method: "linear",
-      })
-    ).toBe(-0.5);
   });
 });

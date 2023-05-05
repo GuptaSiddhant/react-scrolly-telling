@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { interpolate } from "../utils/math.js";
+import interpolate from "../interpolate.js";
 import { useScrollyElementContext } from "../utils/scrolly-context.js";
 
 const styles = {
@@ -54,8 +54,8 @@ function useVideo() {
 
     const frame = requestAnimationFrame(() => {
       videoElement.currentTime = interpolate(scrollRatio, {
-        targetStart: 0,
-        targetEnd: videoElement.duration || 0,
+        targetFrom: 0,
+        targetTo: videoElement.duration || 0,
       });
     });
 

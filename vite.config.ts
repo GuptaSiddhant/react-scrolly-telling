@@ -9,6 +9,7 @@ export default defineConfig({
       entry: {
         index: "src",
         element: "src/element.tsx",
+        interpolate: "src/interpolate.ts",
         provider: "src/provider.tsx",
         video: "src/video.tsx",
       },
@@ -37,7 +38,7 @@ export default defineConfig({
 
         chunkFileNames: (info) => {
           const cjs = info.exports.some((e) => e.length > 5);
-          return `[name].${cjs ? "cjs" : "mjs"}`;
+          return `_[name].${cjs ? "cjs" : "mjs"}`;
         },
       },
     },

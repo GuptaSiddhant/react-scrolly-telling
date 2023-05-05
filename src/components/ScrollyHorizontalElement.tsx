@@ -1,6 +1,6 @@
 import { forwardRef, useRef } from "react";
 
-import { interpolate } from "../utils/math.js";
+import interpolate from "../interpolate.js";
 import { mergeRefs, useStableLayoutEffect } from "../utils/react-helpers.js";
 import { ScrollyElementContext } from "../utils/scrolly-context.js";
 import useScrolly from "../utils/use-scrolly.js";
@@ -106,8 +106,8 @@ function useScrollyHorizontalElementLayout(
     containerRef.current?.style.setProperty("height", `${containerHeight}px`);
 
     const translateValue = interpolate(scrollRatio, {
-      targetStart: 0,
-      targetEnd: scrollDistance,
+      targetFrom: 0,
+      targetTo: scrollDistance,
     }).toFixed(0);
 
     const frame = window.requestAnimationFrame((time) => {
