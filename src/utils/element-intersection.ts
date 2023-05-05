@@ -13,13 +13,15 @@ export default function useElementIntersection(): IntersectionObserverSubscriber
     new Map<Element, IntersectionObserverCallback>()
   );
 
+  const handleIntersection = useCallback((entry: IntersectionObserverEntry) => {
+    targetCallbackMapRef.current.get(entry.target)?.(entry);
+  }, []);
+
   const intersectionObserverRef = useRef<IntersectionObserver | null>(
     typeof window !== "undefined"
-      ? new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            targetCallbackMapRef.current.get(entry.target)?.(entry);
-          });
-        })
+      ? new IntersectionObserver((entries) =>
+          entries.forEach(handleIntersection)
+        )
       : null
   );
 

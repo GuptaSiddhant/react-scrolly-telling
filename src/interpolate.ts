@@ -10,8 +10,6 @@ export interface InterpolateOptions {
    * Easing function which allows you to customize the input, for example to apply a certain easing function.
    * By default, the input is left unmodified, resulting in a pure linear interpolation.
    * A list of easing functions used from `Easing` class.
-   *
-   * @see https://www.remotion.dev/docs/easing
    */
   easing?: EasingFn;
   /** Result will be rounded at provided number of decimal places. */

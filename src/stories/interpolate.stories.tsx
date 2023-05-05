@@ -28,8 +28,7 @@ export default {
   },
 } satisfies Meta<ComponentType>;
 
-export const Default: StoryObj<ComponentType> = {
-  name: "interpolate",
+export const Playground: StoryObj<ComponentType> = {
   args: { easing: Easing.linear },
 };
 

@@ -1,0 +1,38 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components / ScrollyVideo / Docs" />
+
+# ScrollyVideo
+
+This component plays a video in the background and allows for scrolling through the content. The video playback is linked to scroll and changes based on the scroll position.
+
+## Usage
+
+Note: There should be a `ScrollyProvider` higher up in the tree for `ScrollyVideo` to work.
+
+[View Story](?path=/story/components-scrollyvideo--default)
+
+```tsx
+import ScrollyVideo from "react-scrolly-telling/video";
+
+function App() {
+  return (
+    <ScrollyVideo
+      src={"https://scrollyvideo.js.org/goldengate.mp4"}
+      // More height allows more area to scroll throught the video.
+      style={{ height: "200vh" }}
+    />
+  );
+}
+```
+
+## API
+
+The component accepts the following props:
+
+- `src`: The source url of the video.
+- `playFromEntry`: If true, the video starts playing as soon as the element enters the screen. If false, the video starts playing when the element has reached the top of the screen. Defaults to `false`.
+- `playTillExit`: If true, the video plays till the element has completely exited the screen. If false, the video stops playing when the element starts exiting the screen. Defaults to `false`.
+- Any props that are accepted by `div`. These props are passed to ScrollyElement.
+
+Note: Since the `ScrollyVideo` is wrapper around `ScrollyElemnet`, its children can access ScrollyValues with `useScrollyElementContext` hook.

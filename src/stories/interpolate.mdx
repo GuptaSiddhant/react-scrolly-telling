@@ -1,0 +1,54 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Helpers / interpolate / Docs" />
+
+# interpolate()
+
+Helper function to transfrom a value from one range to another. [Visit playground](?path=/story/helpers-interpolate--playground) to see how different easing functions affect the output.
+
+## Usage
+
+```ts
+import interpolate from "react-scrolly-telling/interpolate";
+
+const output = interpolate(0.5, {
+  sourceFrom: 0,
+  sourceTo: 1,
+  targetFrom: 10,
+  targetTo: 100,
+});
+
+console.log(output); // 55
+```
+
+The function also accepts `easing` option which allows to modify the output calculation.
+
+```ts
+import interpolate, { Easing } from "react-scrolly-telling/interpolate";
+
+const output = interpolate(0.5, {
+  sourceFrom: 0,
+  sourceTo: 1,
+  targetFrom: 10,
+  targetTo: 100,
+  easing: Easing.quad,
+});
+
+console.log(output); // 52.5
+```
+
+## API
+
+The function accepts two arguments:
+
+- `input`: the number that lies in the source range
+- `options`: an object to customise the output calculation
+
+### Options
+
+- `sourceFrom`: the start of the source range. Default: 0
+- `sourceTo`: the end of the source range. Default: 1
+- `targetFrom`: the start of the target range
+- `targetTo`: the end of the target range
+- `easing`: the easing function to modify the output calculation. Default: `Easing.linear`
+- `precision`: Result will be rounded at provided number of decimal places.

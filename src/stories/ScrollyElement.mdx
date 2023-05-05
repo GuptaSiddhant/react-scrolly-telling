@@ -1,0 +1,117 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components / ScrollyElement / Docs" />
+
+# ScrollyElement
+
+This component is wrapper around `useScrolly` hook. It also provides context for sub-components. The component has 2 modes, "default" and "horizontal".
+
+The `horizontal` mode places the content in a row and allows for side-scrolling.
+
+## Usage
+
+Note: There should be a `ScrollyProvider` higher up in the tree for `ScrollyElement` to work.
+
+### Default
+
+[View Story](?path=/story/components-scrollyelement--default)
+
+```tsx
+import ScrollyElement from "react-scrolly-telling/element";
+
+function App() {
+  return (
+    <ScrollyElement>
+      <Content1 />
+      <Content2 />
+      <Content3 />
+      <Content4 />
+    </ScrollyElement>
+  );
+}
+```
+
+### Horizontal
+
+[View Story](?path=/story/components-scrollyelement--horizontal)
+
+```tsx
+import ScrollyElement from "react-scrolly-telling/element";
+
+function App() {
+  return (
+    <ScrollyElement horizontal>
+      <Content1 />
+      <Content2 />
+      <Content3 />
+      <Content4 />
+    </ScrollyElement>
+  );
+}
+```
+
+### Custom tag/component
+
+```tsx
+import ScrollyElement from "react-scrolly-telling/element";
+
+function App() {
+  return (
+    <ScrollyElement as="ul">
+      <li />
+      <li />
+    </ScrollyElement>
+  );
+}
+```
+
+```tsx
+import ScrollyElement from "react-scrolly-telling/element";
+import Component, { Option } from "./somewhere";
+
+function App() {
+  return (
+    <ScrollyElement as={Component} {...componentProps}>
+      <Option />
+      <Option />
+    </ScrollyElement>
+  );
+}
+```
+
+## API
+
+The component accepts the following props:
+
+- `as`: The HTML tag to use for the wrapper element. Defaults to `div`. Can be a different React component as well.
+- `horizontal`: Whether to use horizontal mode. Defaults to `false`.
+- Any props that are accepted by component passed to `as` prop. If by default, `as` is "div", them ScrollyElement will accept all props of `div`.
+
+The ScrollyValues (like ScrollRatio) can be accessed by child elements via the `useScrollyElementContext` hook.
+
+```tsx
+import ScrollyElement, {
+  useScrollyElementContext,
+} from "react-scrolly-telling/element";
+
+function App() {
+  return (
+    <ScrollyElement horizontal>
+      <Content id={1} />
+      <Content id={2} />
+      <Content id={3} />
+      <Content id={4} />
+    </ScrollyElement>
+  );
+}
+
+function Content({ id }: { id: number }) {
+  const { scrollRatio } = useScrollyElementContext();
+
+  return (
+    <div>
+      {id}: {scrollRatio}
+    </div>
+  );
+}
+```
