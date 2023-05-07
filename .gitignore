@@ -3,3 +3,4 @@ node_modules
 dist
 *.log
 storybook-static
+vite.config.ts.*.mjs
