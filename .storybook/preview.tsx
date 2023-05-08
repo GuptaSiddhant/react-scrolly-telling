@@ -8,7 +8,7 @@ import {
   ArgTypes,
 } from "@storybook/blocks";
 
-const preview: Preview = {
+export default {
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
@@ -30,6 +30,4 @@ const preview: Preview = {
       ),
     },
   },
-};
-
-export default preview;
+} satisfies Preview;

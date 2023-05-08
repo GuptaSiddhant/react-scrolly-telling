@@ -4,7 +4,7 @@
 
 `react-scrolly-telling` is a helper library to track the position of an element on the screen with respect to the viewport (or other parent element). It is optimised to work well with React, SSR, and Suspense.
 
-[GitHub](https://www.github.com/GuptaSiddhant/react-scrolly-telling) | [NPM](https://www.npmjs.com/package/react-scrolly-telling) | [Demo](https://git.guptasiddhant.com/react-scrolly-telling/)
+[GitHub](https://www.github.com/GuptaSiddhant/react-scrolly-telling) | [NPM](https://www.npmjs.com/package/react-scrolly-telling) | [Docs/Demo](https:///react-scrolly-telling.vercel.app/)
 
 ## Installation
 
