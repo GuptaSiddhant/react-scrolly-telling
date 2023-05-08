@@ -10,7 +10,6 @@ export interface ScrollyHorizontalElementProps {
   children: React.ReactNode;
   preChildren?: React.ReactNode;
   postChildren?: React.ReactNode;
-
   style?: React.CSSProperties;
 }
 
@@ -41,10 +40,10 @@ const styles = {
   },
 } satisfies Record<string, React.CSSProperties>;
 
-const ScrollyHorizontalElement = forwardRef<
-  HTMLDivElement,
-  ScrollyHorizontalElementProps
->((props, forwardedRef) => {
+const ScrollyHorizontalElement = (
+  props: ScrollyHorizontalElementProps,
+  forwardedRef: React.ForwardedRef<HTMLDivElement>
+) => {
   const {
     as: Component = "div",
     children,
@@ -83,9 +82,11 @@ const ScrollyHorizontalElement = forwardRef<
       </div>
     </div>
   );
-});
+};
 
-export default ScrollyHorizontalElement;
+export default forwardRef(ScrollyHorizontalElement);
+
+const CSS_PROPERTY_OVERFLOW_X = "overflow-x";
 
 function useScrollyHorizontalElementLayout(
   containerRef: React.RefObject<HTMLDivElement>,
@@ -96,6 +97,20 @@ function useScrollyHorizontalElementLayout(
     precision: 3,
   });
   const { windowWidth, windowHeight, scrollRatio } = scrollyValues;
+
+  // Make sure the body doesn't scroll horizontally itself
+  useStableLayoutEffect(() => {
+    const previousOverflowX = document.body.style.getPropertyValue(
+      CSS_PROPERTY_OVERFLOW_X
+    );
+    document.body.style.setProperty(CSS_PROPERTY_OVERFLOW_X, "hidden");
+
+    return () =>
+      document.body.style.setProperty(
+        CSS_PROPERTY_OVERFLOW_X,
+        previousOverflowX
+      );
+  }, []);
 
   useStableLayoutEffect(() => {
     const contentScrollWidth = contentRef.current?.scrollWidth || 0;

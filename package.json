@@ -1,6 +1,6 @@
 {
   "name": "react-scrolly-telling",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Create scrolly-telling animations in React with ease.",
   "type": "module",
   "keywords": [
@@ -57,12 +57,12 @@
     "storybook:build": "storybook build"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.0.8",
-    "@storybook/addon-interactions": "^7.0.8",
-    "@storybook/addon-links": "^7.0.8",
-    "@storybook/blocks": "^7.0.8",
-    "@storybook/react": "^7.0.8",
-    "@storybook/react-vite": "^7.0.8",
+    "@storybook/addon-essentials": "^7.0.9",
+    "@storybook/addon-interactions": "^7.0.9",
+    "@storybook/addon-links": "^7.0.9",
+    "@storybook/blocks": "^7.0.9",
+    "@storybook/react": "^7.0.9",
+    "@storybook/react-vite": "^7.0.9",
     "@storybook/testing-library": "^0.0.14-next.2",
     "@testing-library/react": "^14.0.0",
     "@types/node": "^18.0.0",
@@ -78,7 +78,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.0.8",
+    "storybook": "^7.0.9",
     "typescript": "^5.0.0",
     "vite": "^4.3.3",
     "vite-plugin-dts": "^2.3.0",

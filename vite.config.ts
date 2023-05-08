@@ -9,8 +9,7 @@ export default defineConfig({
       entry: {
         index: "src",
         element: "src/element.tsx",
-        interpolate: "src/interpolate.ts",
-        provider: "src/provider.tsx",
+        interpolate: "src/interpolate.ts",        
         video: "src/video.tsx",
       },
       name: "react-scrolly-telling",
