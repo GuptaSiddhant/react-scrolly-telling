@@ -3,7 +3,7 @@ import { forwardRef, useRef } from "react";
 import useScrolly from "../utils/use-scrolly.js";
 import { ScrollyElementContext } from "../utils/scrolly-context.js";
 import type { ScrollyOptions } from "../utils/types.js";
-import { mergeRefs } from "../utils/react-helpers.js";
+import { mergeRefs, type Styles } from "../utils/react-helpers.js";
 
 export interface ScrollyVerticalElementProps
   extends Omit<ScrollyOptions, "disabled"> {
@@ -21,7 +21,7 @@ const styles = {
     position: "relative",
     width: "100%",
   },
-} satisfies Record<string, React.CSSProperties>;
+} satisfies Styles;
 
 const ScrollyVerticalElement = forwardRef<
   HTMLDivElement,

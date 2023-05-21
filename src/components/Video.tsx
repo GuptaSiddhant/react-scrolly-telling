@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
 import interpolate from "../interpolate.js";
+import { type Styles } from "../utils/react-helpers.js";
 import { useScrollyElementContext } from "../utils/scrolly-context.js";
 
 const styles = {
@@ -12,7 +13,7 @@ const styles = {
     height: "100vh",
     objectFit: "cover",
   },
-} satisfies Record<string, React.CSSProperties>;
+} satisfies Styles;
 
 export interface VideoProps {
   src: string;

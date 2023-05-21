@@ -14,3 +14,5 @@ export function mergeRefs<T>(...refs: React.Ref<T>[]) {
 
 export const useStableLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
+
+export type Styles = Record<string, React.CSSProperties>;

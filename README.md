@@ -1,10 +1,23 @@
 # React ScrollyTelling
 
-> Create scrolly-telling animations in React with ease.
+Create scrolly-telling animations in React with ease.
+
+[![Release](https://badgen.net/npm/v/react-scrolly-telling)](https://www.npmjs.com/package/react-scrolly-telling)
+[![Types](https://badgen.net/npm/types/react-scrolly-telling)](https://www.npmjs.com/package/react-scrolly-telling)
+[![License](https://badgen.net/github/license/guptasiddhant/react-scrolly-telling)](https://github.com/GuptaSiddhant/react-scrolly-telling/blob/main/LICENSE)
+[![Total downloads](https://badgen.net/npm/dt/react-scrolly-telling)](https://www.npmjs.com/package/react-scrolly-telling)
+[![Releases](https://badgen.net/github/releases/guptasiddhant/react-scrolly-telling)](https://github.com/GuptaSiddhant/react-scrolly-telling/releases)
+
+[![Minified GZip](https://badgen.net/bundlephobia/minzip/react-scrolly-telling)](https://bundlephobia.com/package/react-scrolly-telling)
+[![Dependency count](https://badgen.net/bundlephobia/dependency-count/react-scrolly-telling)](https://bundlephobia.com/package/react-scrolly-telling)
+[![Tree shaking](https://badgen.net/bundlephobia/tree-shaking/react-scrolly-telling)](https://bundlephobia.com/package/react-scrolly-telling)
 
 `react-scrolly-telling` is a helper library to track the position of an element on the screen with respect to the viewport (or other parent element). It is optimised to work well with React, SSR, and Suspense.
 
-[GitHub](https://www.github.com/GuptaSiddhant/react-scrolly-telling) | [NPM](https://www.npmjs.com/package/react-scrolly-telling) | [Docs/Demo](https:///react-scrolly-telling.vercel.app/)
+- **[Docs/Demo - Storybook](https:///react-scrolly-telling.vercel.app/)**
+- [GitHub](https://www.github.com/GuptaSiddhant/react-scrolly-telling)
+- [NPM](https://www.npmjs.com/package/react-scrolly-telling)
+- [Bundlephobia](https://bundlephobia.com/package/react-scrolly-telling)
 
 ## Installation
 
