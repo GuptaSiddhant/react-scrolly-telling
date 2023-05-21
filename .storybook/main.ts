@@ -10,6 +10,7 @@ export default {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
+    "@a110/storybook-expand-all",
   ],
   framework: { name: "@storybook/react-vite", options: {} },
   docs: { autodocs: "tag" },
