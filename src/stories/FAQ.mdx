@@ -1,0 +1,23 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="FAQ" />
+
+# FAQ
+
+---
+
+<details open>
+<summary>I am not able to import components or utilties.</summary>
+
+> This pacakge uses npm-exports to export all the components and utilities.
+> This should work normally with latest Node.js versions but sometimes the version of TypeScript used in your project might not support this feature.
+>
+> In that case, you can use the following syntax to import components and utilities from sub-paths:
+>
+> ```tsx
+> import ScrollyElement from "react-scrolly-telling/dist/element";
+> ```
+>
+> Adding `dist` to the import path should fix the issue. Though, you should figure out why your project is not supporting npm-exports.
+
+</details>

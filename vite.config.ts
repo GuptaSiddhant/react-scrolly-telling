@@ -9,7 +9,8 @@ export default defineConfig({
       entry: {
         index: "src",
         element: "src/element.tsx",
-        interpolate: "src/interpolate.ts",        
+        interpolate: "src/interpolate.ts",
+        scrim: "src/scrim.ts",
         video: "src/video.tsx",
       },
       name: "react-scrolly-telling",
@@ -37,7 +38,7 @@ export default defineConfig({
 
         chunkFileNames: (info) => {
           const cjs = info.exports.some((e) => e.length > 5);
-          return `_[name].${cjs ? "cjs" : "mjs"}`;
+          return `__[name]__.${cjs ? "cjs" : "mjs"}`;
         },
       },
     },

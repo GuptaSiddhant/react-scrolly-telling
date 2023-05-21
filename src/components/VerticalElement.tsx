@@ -20,6 +20,7 @@ const styles = {
     boxSizing: "border-box",
     position: "relative",
     width: "100%",
+    minHeight: "100vh",
   },
 } satisfies Styles;
 
@@ -47,17 +48,15 @@ const ScrollyVerticalElement = forwardRef<
 
   return (
     <ScrollyElementContext.Provider value={scrollyValues}>
-      {preChildren}
-
       <Component
         {...rest}
         style={{ ...styles.base, ...rest.style }}
         ref={mergeRefs(forwardedRef, innerRef)}
       >
+        {preChildren}
         {children}
+        {postChildren}
       </Component>
-
-      {postChildren}
     </ScrollyElementContext.Provider>
   );
 });

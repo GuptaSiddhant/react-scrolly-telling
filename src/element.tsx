@@ -2,10 +2,10 @@ import { forwardRef } from "react";
 
 import ScrollyHorizontalElement, {
   type ScrollyHorizontalElementProps,
-} from "./components/ScrollyHorizontalElement.jsx";
+} from "./components/HorizontalElement.js";
 import ScrollyVerticalElement, {
   type ScrollyVerticalElementProps,
-} from "./components/ScrollyVerticalElement.jsx";
+} from "./components/VerticalElement.js";
 
 type ScrollyElementBaseProps =
   | ({ horizontal: true } & ScrollyHorizontalElementProps)

@@ -3,7 +3,7 @@ import {
   useScrollyElementContext,
   useScrollyRootContext,
 } from "./scrolly-context.js";
-import ScrollyProvider from "../provider.js";
+import ScrollyProvider from "../components/Provider.jsx";
 import ScrollyElement from "../element.js";
 import { createElement } from "react";
 

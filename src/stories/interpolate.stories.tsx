@@ -28,7 +28,7 @@ export default {
   },
 } satisfies Meta<ComponentType>;
 
-export const Playground: StoryObj<ComponentType> = {
+export const Easings: StoryObj<ComponentType> = {
   args: { easing: Easing.linear },
 };
 

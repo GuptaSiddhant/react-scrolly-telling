@@ -3,6 +3,7 @@ import type { StorybookConfig } from "@storybook/react-vite";
 export default {
   stories: [
     "../src/stories/Welcome.mdx",
+    "../src/stories/FAQ.mdx",
     "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|ts|tsx)",
   ],
