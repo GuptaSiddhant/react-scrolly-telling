@@ -1,18 +1,34 @@
+import Video, { type VideoTimeChangeFn } from "./components/Video.jsx";
 import ScrollyElement from "./element.jsx";
-import Video, { type VideoProps } from "./components/Video.jsx";
+import { type Styles } from "./utils/react-helpers.js";
 
 export interface ScrollyVideoProps
-  extends VideoProps,
-    React.ComponentPropsWithoutRef<"div"> {
+  extends React.ComponentPropsWithoutRef<"div"> {
   playFromEntry?: boolean;
   playTillExit?: boolean;
+  src: string;
+  onVideoTimeChange?: VideoTimeChangeFn;
+  videoRef?: React.RefObject<HTMLVideoElement>;
 }
+
+const styles = {
+  videoWrapper: { position: "absolute", inset: 0, zIndex: 0 },
+  video: {
+    position: "sticky",
+    top: 0,
+    width: "100vw",
+    height: "100vh",
+    objectFit: "cover",
+  },
+} satisfies Styles;
 
 export default function ScrollyVideo({
   children,
   playFromEntry: startOnEntry,
   playTillExit: stopOnExit,
   src,
+  onVideoTimeChange,
+  videoRef,
   ...rest
 }: ScrollyVideoProps): JSX.Element | null {
   return (
@@ -22,9 +38,21 @@ export default function ScrollyVideo({
       stopAtExitRatio={stopOnExit ? 1 : 0}
       {...rest}
     >
-      <Video src={src} />
+      <div style={styles.videoWrapper} role="presentation">
+        <Video
+          src={src}
+          style={styles.video}
+          onTimeChange={onVideoTimeChange}
+          ref={videoRef}
+        />
+      </div>
 
       {children}
     </ScrollyElement>
   );
 }
+
+export type {
+  VideoTimeChangeFn,
+  VideoTimeChangeValues,
+} from "./components/Video.jsx";

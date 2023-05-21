@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect } from "react";
 
-export function mergeRefs<T>(...refs: React.Ref<T>[]) {
+export function mergeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
   return (element: T) => {
     refs.forEach((ref) => {
       if (typeof ref === "function") {

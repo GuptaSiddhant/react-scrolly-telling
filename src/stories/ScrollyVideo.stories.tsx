@@ -30,5 +30,8 @@ export const PlayTillExit: StoryObj<ComponentType> = {
 };
 
 export const PlayFromEntryTillExit: StoryObj<ComponentType> = {
-  args: { playFromEntry: true, playTillExit: true },
+  args: {
+    playFromEntry: true,
+    playTillExit: true,
+  },
 };

@@ -1,46 +1,57 @@
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useMemo, useRef } from "react";
 
 import interpolate from "../interpolate.js";
-import { type Styles } from "../utils/react-helpers.js";
+import { mergeRefs } from "../utils/react-helpers.js";
 import { useScrollyElementContext } from "../utils/scrolly-context.js";
-
-const styles = {
-  videoWrapper: { position: "absolute", inset: 0, zIndex: 0 },
-  video: {
-    position: "sticky",
-    top: 0,
-    width: "100vw",
-    height: "100vh",
-    objectFit: "cover",
-  },
-} satisfies Styles;
+import useAnimationFrame from "../utils/animation-frame.js";
+import { roundToDecimal } from "../utils/math.js";
 
 export interface VideoProps {
   src: string;
+  style: React.CSSProperties;
+  onTimeChange?: VideoTimeChangeFn;
 }
 
-export default function Video({ src }: VideoProps): JSX.Element {
-  const videoElementRef = useVideo();
+export type VideoTimeChangeFn = (values: VideoTimeChangeValues) => void;
 
-  return (
-    <div style={styles.videoWrapper}>
+export type VideoTimeChangeValues = {
+  currentTime: number;
+  progressRatio: number;
+};
+
+const Video = forwardRef<HTMLVideoElement, VideoProps>(
+  ({ src, style, onTimeChange }, ref): JSX.Element => {
+    const videoElementRef = useVideo({ onTimeChange });
+
+    return (
       <video
         src={src}
-        style={styles.video}
+        style={style}
         autoPlay={false}
         muted
         controls={false}
         disablePictureInPicture
         disableRemotePlayback
-        ref={videoElementRef}
+        ref={mergeRefs(ref, videoElementRef)}
       />
-    </div>
-  );
-}
+    );
+  }
+);
 
-function useVideo() {
+export default Video;
+
+function useVideo({ onTimeChange }: { onTimeChange?: VideoTimeChangeFn }) {
   const { scrollRatio, isVisible } = useScrollyElementContext();
   const videoElementRef = useRef<HTMLVideoElement>(null);
+
+  const currentTime: number = useMemo(
+    () =>
+      interpolate(scrollRatio, {
+        targetFrom: 0,
+        targetTo: videoElementRef.current?.duration || 0,
+      }),
+    [scrollRatio]
+  );
 
   // Preload the video, otherwise the feature doesn't always work on iOS.
   useEffect(() => {
@@ -49,19 +60,18 @@ function useVideo() {
     }
   }, [isVisible]);
 
+  useAnimationFrame(() => {
+    if (videoElementRef.current) {
+      videoElementRef.current.currentTime = currentTime;
+    }
+  });
+
   useEffect(() => {
-    const videoElement = videoElementRef.current;
-    if (!videoElement) return () => {};
-
-    const frame = requestAnimationFrame(() => {
-      videoElement.currentTime = interpolate(scrollRatio, {
-        targetFrom: 0,
-        targetTo: videoElement.duration || 0,
-      });
+    onTimeChange?.({
+      currentTime: roundToDecimal(currentTime, 2),
+      progressRatio: scrollRatio,
     });
-
-    return () => cancelAnimationFrame(frame);
-  }, [scrollRatio]);
+  }, [onTimeChange, currentTime, scrollRatio]);
 
   return videoElementRef;
 }

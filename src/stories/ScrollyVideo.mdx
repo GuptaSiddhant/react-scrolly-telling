@@ -33,6 +33,7 @@ The component accepts the following props:
 - `src`: The source url of the video.
 - `playFromEntry`: If true, the video starts playing as soon as the element enters the screen. If false, the video starts playing when the element has reached the top of the screen. Defaults to `false`.
 - `playTillExit`: If true, the video plays till the element has completely exited the screen. If false, the video stops playing when the element starts exiting the screen. Defaults to `false`.
+- `onVideoTimeChange`: A callback that is called when the video time changes. It is called with the current-time and the progress-ratio of the video.
 - Any props that are accepted by `div`. These props are passed to ScrollyElement.
 
 Note: Since the `ScrollyVideo` is wrapper around `ScrollyElemnet`, its children can access ScrollyValues with `useScrollyElementContext` hook.
