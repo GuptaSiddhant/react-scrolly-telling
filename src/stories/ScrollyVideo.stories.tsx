@@ -51,13 +51,18 @@ const positions: ScrollyVideoCaptionProps["position"][] = [
 
 export const Captions: StoryObj<ComponentType> = {
   args: {
-    // playFromEntry: true,
-    // playTillExit: true,
+    style: { height: "300vh" },
+    playFromEntry: false,
+    playTillExit: false,
     captions: positions.map((position, i) => ({
       position,
-      children: <>Long Caption text at position: {position}</>,
-      fromTimestamp: i + 0,
-      toTimestamp: i + 5,
+      children: (
+        <div style={{ maxWidth: "25vw", textShadow: "0 0 4px #0008" }}>
+          Long Caption text at position: {position}
+        </div>
+      ),
+      fromTimestamp: i + 0.5,
+      toTimestamp: i + 4.5,
     })),
     captionsConfig: {
       verticalPadding: "40px",
@@ -66,7 +71,6 @@ export const Captions: StoryObj<ComponentType> = {
         fontWeight: "bold",
         fontSize: "2em",
         color: "white",
-        width: "300px",
       },
     },
   },

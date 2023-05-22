@@ -3,6 +3,8 @@ import { defineConfig } from "vite";
 import dtsPlugin from "vite-plugin-dts";
 import { peerDependencies, devDependencies } from "./package.json";
 
+const facadeModuleIdMap = new Map<string, boolean>();
+
 export default defineConfig({
   build: {
     lib: {
@@ -12,6 +14,7 @@ export default defineConfig({
         interpolate: "src/interpolate.ts",
         scrim: "src/scrim.ts",
         video: "src/video.tsx",
+        videoCaption: "src/components/VideoCaptions.tsx",
       },
       name: "react-scrolly-telling",
       formats: ["es", "cjs"],
@@ -37,6 +40,15 @@ export default defineConfig({
         },
 
         chunkFileNames: (info) => {
+          if (info.facadeModuleId) {
+            if (facadeModuleIdMap.has(info.facadeModuleId)) {
+              return `__[name]__.cjs`;
+            } else {
+              facadeModuleIdMap.set(info.facadeModuleId, true);
+              return `__[name]__.mjs`;
+            }
+          }
+
           const cjs = info.exports.some((e) => e.length > 5);
           return `__[name]__.${cjs ? "cjs" : "mjs"}`;
         },
