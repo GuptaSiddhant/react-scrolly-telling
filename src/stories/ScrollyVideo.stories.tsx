@@ -5,6 +5,7 @@ import {
   scrollyContextDecorator,
 } from "./decorators.jsx";
 import ScrollyVideo from "../video.jsx";
+import { ScrollyVideoCaptionProps } from "../components/VideoCaptions.js";
 
 const component = ScrollyVideo;
 type ComponentType = typeof component;
@@ -14,7 +15,7 @@ export default {
   component,
   decorators: [scrollyContextDecorator, scrollSpacerDecorator],
   args: {
-    src: "https://scrollyvideo.js.org/goldengate.mp4",
+    src: "/goldengate.mp4",
     style: { height: "200vh" },
   },
 } satisfies Meta<ComponentType>;
@@ -33,5 +34,40 @@ export const PlayFromEntryTillExit: StoryObj<ComponentType> = {
   args: {
     playFromEntry: true,
     playTillExit: true,
+  },
+};
+
+const positions: ScrollyVideoCaptionProps["position"][] = [
+  "top-left",
+  "top-center",
+  "top-right",
+  "center-left",
+  "center-center",
+  "center-right",
+  "bottom-left",
+  "bottom-center",
+  "bottom-right",
+];
+
+export const Captions: StoryObj<ComponentType> = {
+  args: {
+    // playFromEntry: true,
+    // playTillExit: true,
+    captions: positions.map((position, i) => ({
+      position,
+      children: <>Long Caption text at position: {position}</>,
+      fromTimestamp: i + 0,
+      toTimestamp: i + 5,
+    })),
+    captionsConfig: {
+      verticalPadding: "40px",
+      horizontalPadding: "40px",
+      style: {
+        fontWeight: "bold",
+        fontSize: "2em",
+        color: "white",
+        width: "300px",
+      },
+    },
   },
 };

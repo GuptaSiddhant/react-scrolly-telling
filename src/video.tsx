@@ -1,6 +1,13 @@
-import Video, { type VideoTimeChangeFn } from "./components/Video.jsx";
+import { useRef } from "react";
+import VideoElement, {
+  type VideoTimeChangeFn,
+} from "./components/VideoElement.js";
 import ScrollyElement from "./element.jsx";
-import { type Styles } from "./utils/react-helpers.js";
+import { mergeRefs, type Styles } from "./utils/react-helpers.js";
+import VideoCaptions, {
+  type VideoCaptionsProps,
+  type ScrollyVideoCaptionsConfig,
+} from "./components/VideoCaptions.js";
 
 export interface ScrollyVideoProps
   extends React.ComponentPropsWithoutRef<"div"> {
@@ -9,16 +16,18 @@ export interface ScrollyVideoProps
   src: string;
   onVideoTimeChange?: VideoTimeChangeFn;
   videoRef?: React.RefObject<HTMLVideoElement>;
+  captions?: VideoCaptionsProps["captions"];
+  captionsConfig?: ScrollyVideoCaptionsConfig;
 }
 
 const styles = {
-  videoWrapper: { position: "absolute", inset: 0, zIndex: 0 },
-  video: {
+  scrollyElement: { minHeight: "110vh" },
+  videoWrapper: {
+    boxSizing: "border-box",
     position: "sticky",
     top: 0,
-    width: "100vw",
     height: "100vh",
-    objectFit: "cover",
+    width: "100vw",
   },
 } satisfies Styles;
 
@@ -29,22 +38,33 @@ export default function ScrollyVideo({
   src,
   onVideoTimeChange,
   videoRef,
+  captions,
+  captionsConfig,
   ...rest
 }: ScrollyVideoProps): JSX.Element | null {
+  const innerVideoRef = useRef<HTMLVideoElement>(null);
+
   return (
     <ScrollyElement
-      style={{ minHeight: "110vh" }}
+      style={styles.scrollyElement}
       startAtEntryRatio={startOnEntry ? 0 : 1}
       stopAtExitRatio={stopOnExit ? 1 : 0}
       {...rest}
     >
       <div style={styles.videoWrapper} role="presentation">
-        <Video
+        <VideoElement
           src={src}
-          style={styles.video}
           onTimeChange={onVideoTimeChange}
-          ref={videoRef}
+          ref={mergeRefs(videoRef, innerVideoRef)}
         />
+
+        {captions && captions.length > 0 ? (
+          <VideoCaptions
+            captions={captions}
+            config={captionsConfig}
+            videoRef={innerVideoRef}
+          />
+        ) : null}
       </div>
 
       {children}
@@ -55,4 +75,9 @@ export default function ScrollyVideo({
 export type {
   VideoTimeChangeFn,
   VideoTimeChangeValues,
-} from "./components/Video.jsx";
+} from "./components/VideoElement.js";
+export type {
+  ScrollyVideoCaptionPosition,
+  ScrollyVideoCaptionProps,
+  ScrollyVideoCaptionsConfig,
+} from "./components/VideoCaptions.js";
