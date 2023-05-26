@@ -1,7 +1,8 @@
 import { forwardRef, useMemo } from "react";
+
+import useScrollyElementContext from "../contexts/element-context.js";
 import interpolate from "../interpolate.js";
 import { minmax } from "../utils/math.js";
-import { useScrollyElementContext } from "../utils/scrolly-context.js";
 
 export interface IRevealScrimProps extends React.ComponentPropsWithRef<"div"> {
   fromOpacity?: number;

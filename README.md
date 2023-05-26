@@ -31,7 +31,17 @@ npm install react-scrolly-telling
 pnpm add react-scrolly-telling
 ```
 
-### `useScrolly` hook
+## Features
+
+- Track scroll position of an element with respect to the viewport using the `useScrolly` hook.
+- Create `ScrollyElement` that are tracked automatically.
+  - Bonus: `ScrollyElement` can be used to create Horizontal Scrolling effect. See [Storybook](https://react-scrolly-telling.vercel.app/?path=/story/components-scrollyelement--horizontal) for demo.
+- Create Element with video background that plays/pauses/rewinds automatically based on scroll position.
+  - Place any content on top of the video element.
+  - Bonus: Provide a list of captions that are shown over the video based on video timestamp (in seconds). See [Storybook](https://react-scrolly-telling.vercel.app/?path=/story/components-scrollyvideo--captions) for demo.
+- Add a `RevealScrim` to any ScrollyElement to reveal (fade from black) the element as the user scrolls.
+
+## `useScrolly` hook
 
 The core hook tracks the position of an element while is scrolls with respect to the viewport (or other parent element). It returns the following values: `scrollRatio`, `entryRatio`, `exitRatio` and more. These values can be used to calculate styles for animations or time for video playback.
 

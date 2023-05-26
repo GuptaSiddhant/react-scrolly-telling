@@ -5,7 +5,7 @@ import interpolate from "../interpolate.js";
 
 export interface VideoCaptionsProps {
   videoRef: React.RefObject<HTMLVideoElement>;
-  captions?: Omit<ScrollyVideoCaptionProps, "currentTime">[];
+  captions?: ScrollyVideoCaptionProps[];
   config?: ScrollyVideoCaptionsConfig;
 }
 
@@ -39,7 +39,7 @@ export default function VideoCaptions(
           verticalPadding={verticalPadding}
           animation={animation}
           {...caption}
-          commonStyle={style}
+          style={style}
           currentTime={currentTime}
           key={`${caption.fromTimestamp}-${caption.toTimestamp}-${caption.position}`}
         />
@@ -98,8 +98,6 @@ export interface ScrollyVideoCaptionProps {
   fromTimestamp: number;
   /** Hide caption at this value in seconds */
   toTimestamp: number;
-  /** Style of the caption container */
-  style?: React.CSSProperties;
   /** @default "center-center" */
   position?: ScrollyVideoCaptionPosition;
   /** @default 5vh */
@@ -112,7 +110,8 @@ export interface ScrollyVideoCaptionProps {
 
 interface VideoCaptionProps extends ScrollyVideoCaptionProps {
   currentTime: number;
-  commonStyle?: React.CSSProperties;
+  /** Style of the caption container */
+  style?: React.CSSProperties;
 }
 
 const DEFAULT_ANIMATION_DURATION = 0.5;
@@ -124,7 +123,6 @@ function VideoCaption(props: VideoCaptionProps): JSX.Element | null {
     currentTime = 0,
     fromTimestamp,
     toTimestamp,
-    commonStyle,
     style,
     animation,
     ...options
@@ -145,7 +143,6 @@ function VideoCaption(props: VideoCaptionProps): JSX.Element | null {
       data-timestamp-from={fromTimestamp}
       data-timestamp-to={toTimestamp}
       style={{
-        ...commonStyle,
         ...style,
         ...calculateVideoCaptionStyle(options),
         ...calculateVideoCaptionAnimation(animation, {
@@ -199,8 +196,6 @@ function calculateVideoCaptionAnimation(
 
 interface CalculateVideoCaptionStyleOptions {
   position?: ScrollyVideoCaptionPosition;
-  style?: React.CSSProperties;
-  commonStyle?: React.CSSProperties;
   verticalPadding?: string | number;
   horizontalPadding?: string | number;
 }

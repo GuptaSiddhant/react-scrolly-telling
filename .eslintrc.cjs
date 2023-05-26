@@ -16,5 +16,9 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/no-empty-function": "off",
+    "react-hooks/exhaustive-deps": [
+      "error",
+      { additionalHooks: "useStableLayoutEffect" },
+    ],
   },
 };

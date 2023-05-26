@@ -5,6 +5,7 @@ import {
   scrollyContextDecorator,
 } from "./decorators.jsx";
 import ScrollyElement, { useScrollyElementContext } from "../element.jsx";
+import RevealScrim from "../components/RevealScrim.js";
 
 const component = ScrollyElement;
 type ComponentType = typeof component;
@@ -24,6 +25,7 @@ export const Default: StoryObj<ComponentType> = {
       display: "flex",
       flexDirection: "column",
     },
+    preChildren: <RevealScrim />,
     children: Array(5)
       .fill(null)
       .map((_, i) => {
@@ -46,7 +48,9 @@ export const Default: StoryObj<ComponentType> = {
 export const Horizontal: StoryObj<ComponentType> = {
   args: {
     horizontal: true,
-    style: { gap: "1rem", padding: "1rem" },
+    style: { gap: "1rem", padding: "1rem", paddingLeft: "20rem" },
+    preChildren: <RevealScrim />,
+    postChildren: <PostChildren />,
     children: Array(5)
       .fill(null)
       .map((_, i) => {
@@ -56,6 +60,32 @@ export const Horizontal: StoryObj<ComponentType> = {
   },
 };
 
+function PostChildren({ style }: { style?: React.CSSProperties }) {
+  const { scrollRatio } = useScrollyElementContext();
+
+  return (
+    <div
+      style={{
+        backgroundColor: "lightcyan",
+        border: "1px solid lightblue",
+        borderRadius: "0.5rem",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "black",
+        fontSize: "1.5rem",
+        position: "absolute",
+        top: "2rem",
+        left: "2rem",
+        right: "2rem",
+        ...style,
+      }}
+    >
+      Scrolled {(scrollRatio * 100).toFixed(2)}%.
+    </div>
+  );
+}
+
 function Slide({
   index,
   style,
@@ -63,8 +93,6 @@ function Slide({
   index: number;
   style?: React.CSSProperties;
 }) {
-  const { scrollRatio } = useScrollyElementContext();
-
   return (
     <div
       style={{
@@ -80,7 +108,7 @@ function Slide({
         ...style,
       }}
     >
-      This is slide {index + 1}. Scrolled {(scrollRatio * 100).toFixed(2)}%.
+      This is slide {index + 1}.
     </div>
   );
 }

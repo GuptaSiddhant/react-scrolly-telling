@@ -36,4 +36,4 @@ type ScrollyElementComponentType = <T extends React.ElementType = "div">(
 
 export default ScrollyElement;
 
-export { useScrollyElementContext } from "./utils/scrolly-context.js";
+export { default as useScrollyElementContext } from "./contexts/element-context.js";

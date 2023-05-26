@@ -37,4 +37,6 @@ export interface ScrollyValues {
   readonly windowHeight: number;
   /** Current width of window/viewport in px. */
   readonly windowWidth: number;
+
+  readonly scrollDistance: number;
 }

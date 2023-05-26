@@ -1,7 +1,7 @@
+import useScrollyRootContext from "../contexts/root-context.js";
 import { minmax, roundToDecimal } from "./math.js";
 import useElementPosition from "./element-position.js";
 import useElementVisible from "./element-visible.js";
-import { useScrollyRootContext } from "./scrolly-context.js";
 import type { ScrollyOptions, ScrollyValues } from "./types.js";
 
 const DEFAULT_START_AT = 1;
@@ -28,7 +28,7 @@ export type { ScrollyOptions, ScrollyValues };
 export default function useScrolly<E extends HTMLElement = HTMLElement>(
   ref: React.RefObject<E>,
   options?: ScrollyOptions
-): ScrollyValues {
+): Readonly<ScrollyValues> {
   const { startAtEntryRatio, stopAtExitRatio, precision, disabled } =
     options || {};
   const decimalPlaces = minmax(precision ?? DEFAULT_PRECISION, 1, 6);
@@ -67,6 +67,7 @@ export default function useScrolly<E extends HTMLElement = HTMLElement>(
     isVisible,
     windowHeight,
     windowWidth,
+    scrollDistance: minmax(elementHeight - windowHeight, 0),
   } as const;
 }
 

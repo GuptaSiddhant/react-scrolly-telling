@@ -1,10 +1,10 @@
 import { forwardRef, useEffect, useMemo, useRef } from "react";
 
+import useScrollyElementContext from "../contexts/element-context.js";
 import interpolate from "../interpolate.js";
-import { type Styles, mergeRefs } from "../utils/react-helpers.js";
-import { useScrollyElementContext } from "../utils/scrolly-context.js";
 import useAnimationFrame from "../utils/animation-frame.js";
 import { roundToDecimal } from "../utils/math.js";
+import { type Styles, mergeRefs } from "../utils/react-helpers.js";
 
 export interface VideoElementProps {
   src: string;

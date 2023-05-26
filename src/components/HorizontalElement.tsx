@@ -1,10 +1,15 @@
-import { forwardRef, useCallback, useRef } from "react";
+import { forwardRef, useCallback, useMemo, useRef } from "react";
 
+import { ScrollyElementContext } from "../contexts/element-context.js";
 import interpolate from "../interpolate.js";
 import useAnimationFrame from "../utils/animation-frame.js";
-import { mergeRefs, type Styles } from "../utils/react-helpers.js";
-import { ScrollyElementContext } from "../utils/scrolly-context.js";
-import useScrolly, { ScrollyValues } from "../utils/use-scrolly.js";
+import {
+  mergeRefs,
+  useStableLayoutEffect,
+  type Styles,
+} from "../utils/react-helpers.js";
+import useClientValue from "../utils/use-client-value.js";
+import useScrolly from "../utils/use-scrolly.js";
 
 export interface ScrollyHorizontalElementProps {
   as?: React.ElementType;
@@ -12,8 +17,10 @@ export interface ScrollyHorizontalElementProps {
   preChildren?: React.ReactNode;
   postChildren?: React.ReactNode;
   style?: React.CSSProperties;
+  precision?: number;
 }
 
+const DEFAULT_PRECISION = 3;
 const styles = {
   container: {
     boxSizing: "border-box",
@@ -28,10 +35,10 @@ const styles = {
     top: 0,
     height: "100vh",
     width: "100vw",
-    display: "inline-block",
     overflow: "hidden",
   },
   content: {
+    position: "relative",
     boxSizing: "border-box",
     width: "100%",
     height: "100vh",
@@ -51,14 +58,23 @@ const ScrollyHorizontalElement = (
     children,
     preChildren,
     postChildren,
+    precision = DEFAULT_PRECISION,
     ...rest
   } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const scrollyValues = useScrollyHorizontalElementLayout(
+  const scrollyValues = useScrolly(containerRef, { precision });
+  const scrollDistance = useScrollDistance(
     containerRef,
-    contentRef
+    contentRef,
+    scrollyValues.windowHeight,
+    scrollyValues.windowWidth
+  );
+  useScrollyHorizontalElementLayout(
+    contentRef,
+    scrollyValues.scrollRatio,
+    scrollDistance
   );
 
   return (
@@ -68,7 +84,9 @@ const ScrollyHorizontalElement = (
       style={styles.container}
     >
       <div className="scrolly-horizontal-sticky" style={styles.sticky}>
-        <ScrollyElementContext.Provider value={scrollyValues}>
+        <ScrollyElementContext.Provider
+          value={{ ...scrollyValues, scrollDistance }}
+        >
           {preChildren}
 
           <Component
@@ -88,29 +106,47 @@ const ScrollyHorizontalElement = (
 
 export default forwardRef(ScrollyHorizontalElement);
 
-function useScrollyHorizontalElementLayout(
+function useScrollDistance(
   containerRef: React.RefObject<HTMLDivElement>,
-  contentRef: React.RefObject<HTMLDivElement>
-): ScrollyValues {
-  const scrollyValues = useScrolly(containerRef, {
-    precision: 3,
-  });
-  const { windowWidth, windowHeight, scrollRatio } = scrollyValues;
+  contentRef: React.RefObject<HTMLDivElement>,
+  windowHeight: number,
+  windowWidth: number
+) {
+  const contentScrollWidth: number = useClientValue(
+    () => contentRef.current?.scrollWidth || 0,
+    () => 0
+  );
 
-  const handleAnimationFrame = useCallback(
-    (_: number, delta: number) => {
-      const contentScrollWidth = contentRef.current?.scrollWidth || 0;
-      const scrollDistance = Math.max(contentScrollWidth - windowWidth, 0);
+  const scrollDistance: number = useMemo(
+    () => Math.max(contentScrollWidth - windowWidth, 0),
+    [contentScrollWidth, windowWidth]
+  );
 
-      // Make container taller to accommodate scroll distance
-      const containerHeight = windowHeight + scrollDistance;
-      containerRef.current?.style.setProperty("height", `${containerHeight}px`);
+  // Make container taller to accommodate scroll distance
+  useStableLayoutEffect(() => {
+    const containerHeight = windowHeight + scrollDistance;
+    containerRef.current?.style.setProperty("height", `${containerHeight}px`);
+  }, [containerRef, scrollDistance, windowHeight]);
 
-      const translateValue = interpolate(scrollRatio, {
+  return scrollDistance;
+}
+
+function useScrollyHorizontalElementLayout(
+  contentRef: React.RefObject<HTMLDivElement>,
+  scrollRatio: number,
+  scrollDistance: number
+): void {
+  const translateValue: string = useMemo(
+    () =>
+      interpolate(scrollRatio, {
         targetFrom: 0,
         targetTo: scrollDistance,
-      }).toFixed(0);
+      }).toFixed(0),
+    [scrollDistance, scrollRatio]
+  );
 
+  const handleAnimationFrame = useCallback(
+    (_time: number, delta: number) => {
       contentRef.current?.animate(
         { transform: `translateX(-${translateValue}px)` },
         {
@@ -121,10 +157,8 @@ function useScrollyHorizontalElementLayout(
         }
       );
     },
-    [containerRef, contentRef, scrollRatio, windowHeight, windowWidth]
+    [contentRef, translateValue]
   );
 
   useAnimationFrame(handleAnimationFrame);
-
-  return scrollyValues;
 }

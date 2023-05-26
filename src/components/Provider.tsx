@@ -1,5 +1,5 @@
+import { ScrollyRootContext } from "../contexts/root-context.js";
 import useElementIntersection from "../utils/element-intersection.js";
-import { ScrollyRootContext } from "../utils/scrolly-context.js";
 import useWindowDimension from "../utils/window-dimension.js";
 
 export interface ScrollyProviderProps {

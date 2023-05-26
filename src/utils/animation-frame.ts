@@ -1,6 +1,10 @@
 import { useRef } from "react";
 import { useStableLayoutEffect } from "./react-helpers.js";
 
+/**
+ * Request an animation frame and call the callback with the time and delta.
+ * @param callback The callback should be stable. A new frame will be requested when callback changes.
+ */
 export default function useAnimationFrame(
   callback: (time: number, delta: number) => void
 ): void {
@@ -17,5 +21,5 @@ export default function useAnimationFrame(
     return () => {
       window.cancelAnimationFrame(animationFrame);
     };
-  }, [callback, cancelAnimationFrame]);
+  }, [callback]);
 }

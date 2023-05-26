@@ -1,6 +1,6 @@
 {
   "name": "react-scrolly-telling",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Create scrolly-telling animations in React with ease.",
   "type": "module",
   "keywords": [
@@ -16,6 +16,7 @@
   ],
   "repository": "guptasiddhant/react-scrolly-telling",
   "author": "Siddhant Gupta <me@guptasiddhant.com>",
+  "homepage": "https://react-scrolly-telling.vercel.app",
   "license": "MIT",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",

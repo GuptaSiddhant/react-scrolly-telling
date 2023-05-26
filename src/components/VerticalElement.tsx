@@ -1,7 +1,7 @@
 import { forwardRef, useRef } from "react";
 
+import { ScrollyElementContext } from "../contexts/element-context.js";
 import useScrolly from "../utils/use-scrolly.js";
-import { ScrollyElementContext } from "../utils/scrolly-context.js";
 import type { ScrollyOptions } from "../utils/types.js";
 import { mergeRefs, type Styles } from "../utils/react-helpers.js";
 
@@ -16,6 +16,11 @@ export interface ScrollyVerticalElementProps
 }
 
 const styles = {
+  wrapper: {
+    boxSizing: "border-box",
+    position: "relative",
+    width: "100%",
+  },
   base: {
     boxSizing: "border-box",
     position: "relative",

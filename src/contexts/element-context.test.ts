@@ -1,11 +1,9 @@
 import { renderHook } from "@testing-library/react";
-import {
-  useScrollyElementContext,
-  useScrollyRootContext,
-} from "./scrolly-context.js";
-import ScrollyProvider from "../components/Provider.jsx";
-import ScrollyElement from "../element.js";
 import { createElement } from "react";
+
+import { useScrollyElementContext } from "../utils/scrolly-context.js";
+import ScrollyProvider from "../components/Provider.js";
+import ScrollyElement from "../element.js";
 
 vi.spyOn(console, "error").mockImplementation(() => {});
 beforeEach(() => {
@@ -17,30 +15,6 @@ beforeEach(() => {
     disconnect: () => null,
   });
   window.IntersectionObserver = mockIntersectionObserver;
-});
-
-describe("useScrollyRootContext", () => {
-  it("throws an error when used outside of a ScrollyProvider", () => {
-    expect(() =>
-      renderHook(() => useScrollyRootContext())
-    ).toThrowErrorMatchingInlineSnapshot(
-      '"useScrollyRootContext must be used within a ScrollyProvider"'
-    );
-  });
-
-  it("returns value when used inside of a ScrollyProvider", () => {
-    const { result } = renderHook(() => useScrollyRootContext(), {
-      wrapper: ScrollyProvider,
-    });
-
-    expect(result.current).toMatchInlineSnapshot(`
-      {
-        "observeElementIntersection": [Function],
-        "windowHeight": 770,
-        "windowWidth": 1020,
-      }
-    `);
-  });
 });
 
 describe("useScrollyElementContext", () => {
