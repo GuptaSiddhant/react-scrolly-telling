@@ -1,22 +1,15 @@
-import { forwardRef, useEffect, useMemo, useRef } from "react";
+import { forwardRef, useRef } from "react";
 
-import useScrollyElementContext from "../contexts/element-context.js";
-import interpolate from "../interpolate.js";
-import useAnimationFrame from "../utils/animation-frame.js";
-import { roundToDecimal } from "../utils/math.js";
 import { type Styles, mergeRefs } from "../utils/react-helpers.js";
+import {
+  type VideoTimeChangeFn,
+  useVideoTimeChange,
+} from "../utils/video-time.js";
 
 export interface VideoElementProps {
   src: string;
   onTimeChange?: VideoTimeChangeFn;
 }
-
-export type VideoTimeChangeFn = (values: VideoTimeChangeValues) => void;
-
-export type VideoTimeChangeValues = {
-  currentTime: number;
-  progressRatio: number;
-};
 
 const styles = {
   video: {
@@ -31,7 +24,8 @@ const styles = {
 
 const VideoElement = forwardRef<HTMLVideoElement, VideoElementProps>(
   ({ src, onTimeChange }, forwardedRef): JSX.Element => {
-    const videoElementRef = useVideoTimeChange({ onTimeChange });
+    const videoElementRef = useRef<HTMLVideoElement>(null);
+    useVideoTimeChange(videoElementRef, { onTimeChange });
 
     return (
       <video
@@ -49,43 +43,3 @@ const VideoElement = forwardRef<HTMLVideoElement, VideoElementProps>(
 );
 
 export default VideoElement;
-
-function useVideoTimeChange({
-  onTimeChange,
-}: {
-  onTimeChange?: VideoTimeChangeFn;
-}) {
-  const videoElementRef = useRef<HTMLVideoElement>(null);
-  const { scrollRatio, isVisible } = useScrollyElementContext();
-
-  const currentTime: number = useMemo(
-    () =>
-      interpolate(scrollRatio, {
-        targetFrom: 0,
-        targetTo: videoElementRef.current?.duration || 0,
-      }),
-    [scrollRatio]
-  );
-
-  // Preload the video, otherwise the feature doesn't always work on iOS.
-  useEffect(() => {
-    if (isVisible) {
-      videoElementRef.current?.load();
-    }
-  }, [isVisible]);
-
-  useAnimationFrame(() => {
-    if (videoElementRef.current) {
-      videoElementRef.current.currentTime = currentTime;
-    }
-  });
-
-  useEffect(() => {
-    onTimeChange?.({
-      currentTime: roundToDecimal(currentTime, 2),
-      progressRatio: scrollRatio,
-    });
-  }, [onTimeChange, currentTime, scrollRatio]);
-
-  return videoElementRef;
-}

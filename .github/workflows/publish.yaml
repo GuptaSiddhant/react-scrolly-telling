@@ -36,11 +36,12 @@ jobs:
           path: node_modules
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Build and test
-        run: |
-          yarn lint
-          yarn build
-          yarn test
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn build
+      - name: Test
+        run: yarn test
       - name: Publish to NPM
         id: publish
         uses: JS-DevTools/npm-publish@v2

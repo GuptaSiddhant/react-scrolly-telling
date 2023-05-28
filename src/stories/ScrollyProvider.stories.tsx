@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import ScrollyProvider from "../components/Provider.jsx";
-import { useScrollyRootContext } from "../utils/scrolly-context.js";
+import useScrollyRootContext from "../contexts/root-context.js";
 
 const component = ScrollyProvider;
 type ComponentType = typeof component;

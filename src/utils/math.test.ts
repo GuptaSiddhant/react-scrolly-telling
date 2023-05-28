@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { minmax, roundToDecimal } from "./math.js";
 
 describe.concurrent("minmax", () => {

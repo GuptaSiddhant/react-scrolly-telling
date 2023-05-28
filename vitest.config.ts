@@ -8,6 +8,7 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       reporter: ["text", "text-summary"],
+      exclude: ["**/node_modules/**", "**/components/**"],
     },
   },
 });

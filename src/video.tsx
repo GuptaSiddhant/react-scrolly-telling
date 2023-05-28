@@ -1,8 +1,7 @@
 import { useRef } from "react";
 
-import VideoElement, {
-  type VideoTimeChangeFn,
-} from "./components/VideoElement.js";
+import VideoElement from "./components/VideoElement.js";
+import { type VideoTimeChangeFn } from "./utils/video-time.js";
 import ScrollyElement from "./element.jsx";
 import { mergeRefs, type Styles } from "./utils/react-helpers.js";
 import VideoCaptions, {
@@ -76,7 +75,7 @@ export default function ScrollyVideo({
 export type {
   VideoTimeChangeFn,
   VideoTimeChangeValues,
-} from "./components/VideoElement.js";
+} from "./utils/video-time.js";
 export type {
   ScrollyVideoCaptionPosition,
   ScrollyVideoCaptionProps,

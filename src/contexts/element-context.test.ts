@@ -1,28 +1,21 @@
 import { renderHook } from "@testing-library/react";
 import { createElement } from "react";
 
-import { useScrollyElementContext } from "../utils/scrolly-context.js";
 import ScrollyProvider from "../components/Provider.js";
 import ScrollyElement from "../element.js";
+import useScrollyElementContext from "./element-context.js";
 
-vi.spyOn(console, "error").mockImplementation(() => {});
-beforeEach(() => {
-  // IntersectionObserver isn't available in test environment
-  const mockIntersectionObserver = vi.fn();
-  mockIntersectionObserver.mockReturnValue({
-    observe: () => null,
-    unobserve: () => null,
-    disconnect: () => null,
-  });
-  window.IntersectionObserver = mockIntersectionObserver;
-});
+import catchHookErrorMessage from "../mocks/catch-hook-error.js";
+import { mockIntersectionObserver } from "../mocks/intersection-observer-mock.js";
+
+mockIntersectionObserver();
 
 describe("useScrollyElementContext", () => {
   it("throws an error when used outside of a ScrollyElement", () => {
-    expect(() =>
-      renderHook(() => useScrollyElementContext())
-    ).toThrowErrorMatchingInlineSnapshot(
-      '"useScrollyContext must be used within a ScrollyElement"'
+    const error = catchHookErrorMessage(() => useScrollyElementContext());
+
+    expect(error).toEqual(
+      "useScrollyContext must be used within a ScrollyElement"
     );
   });
 
@@ -41,6 +34,7 @@ describe("useScrollyElementContext", () => {
         "entryRatio": 1,
         "exitRatio": 1,
         "isVisible": false,
+        "scrollDistance": 0,
         "scrollRatio": 0,
         "windowHeight": 770,
         "windowWidth": 1020,

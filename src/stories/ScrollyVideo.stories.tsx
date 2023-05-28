@@ -5,7 +5,7 @@ import {
   scrollyContextDecorator,
 } from "./decorators.jsx";
 import ScrollyVideo from "../video.jsx";
-import { ScrollyVideoCaptionProps } from "../components/VideoCaptions.js";
+import { ScrollyVideoCaptionPosition } from "../utils/video-captions.js";
 
 const component = ScrollyVideo;
 type ComponentType = typeof component;
@@ -37,7 +37,7 @@ export const PlayFromEntryTillExit: StoryObj<ComponentType> = {
   },
 };
 
-const positions: ScrollyVideoCaptionProps["position"][] = [
+const captionPositions: ScrollyVideoCaptionPosition[] = [
   "top-left",
   "top-center",
   "top-right",
@@ -54,7 +54,7 @@ export const Captions: StoryObj<ComponentType> = {
     style: { height: "300vh" },
     playFromEntry: false,
     playTillExit: false,
-    captions: positions.map((position, i) => ({
+    captions: captionPositions.map((position, i) => ({
       position,
       children: (
         <div style={{ maxWidth: "25vw", textShadow: "0 0 4px #0008" }}>

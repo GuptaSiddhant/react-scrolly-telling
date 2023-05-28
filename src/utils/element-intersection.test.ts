@@ -1,14 +1,9 @@
 import { renderHook } from "@testing-library/react";
 import useElementIntersection from "./element-intersection.js";
 
-// IntersectionObserver isn't available in test environment
-const observeFn = vi.fn();
-const unobserveFn = vi.fn();
-window.IntersectionObserver = vi.fn().mockReturnValue({
-  observe: observeFn,
-  unobserve: unobserveFn,
-  disconnect: () => null,
-});
+import { mockIntersectionObserver } from "../mocks/intersection-observer-mock.js";
+
+const { observeSpy, unobserveSpy } = mockIntersectionObserver();
 
 describe("useElementIntersection", () => {
   test("target is observed", () => {
@@ -18,10 +13,10 @@ describe("useElementIntersection", () => {
     const target = document.createElement("div");
     const unsubscribe = subscribe(target, vi.fn());
 
-    expect(observeFn).toHaveBeenCalledWith(target);
+    expect(observeSpy).toHaveBeenCalledWith(target);
 
     unsubscribe();
-    expect(unobserveFn).toHaveBeenCalledWith(target);
+    expect(unobserveSpy).toHaveBeenCalledWith(target);
   });
 
   test("callback is called on intersection", () => {
@@ -36,5 +31,6 @@ describe("useElementIntersection", () => {
 
     // Todo: figure out how to mock IntersectionObserverEntry
     // expect(callback).toHaveBeenCalled();
+    // Maybe try `jsdom-testing-mocks`
   });
 });

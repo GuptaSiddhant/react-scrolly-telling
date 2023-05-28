@@ -1,4 +1,7 @@
+// @vitest-environment node
+
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import interpolate, { Easing } from "./interpolate.js";
 
 describe.concurrent("interpolate", () => {
