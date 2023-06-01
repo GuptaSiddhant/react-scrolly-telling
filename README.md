@@ -47,6 +47,8 @@ The core hook tracks the position of an element while is scrolls with respect to
 
 ### Usage
 
+> Note: For Next 13 app router, the exports of these library can be imported by client-components only.
+
 ```tsx
 import { useScrolly } from "react-scrolly-telling";
 

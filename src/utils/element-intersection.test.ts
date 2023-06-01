@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import useElementIntersection from "./element-intersection.js";
 
-import { mockIntersectionObserver } from "../mocks/intersection-observer-mock.js";
+import { mockIntersectionObserver } from "../__mocks__/intersection-observer-mock.js";
 
 const { observeSpy, unobserveSpy } = mockIntersectionObserver();
 

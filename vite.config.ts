@@ -1,25 +1,30 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dtsPlugin from "vite-plugin-dts";
+
+import entryPointsDtsPlugin from "./scripts/vite-plugin-entryPoints-dts";
 import { peerDependencies, devDependencies } from "./package.json";
 
+const entryPoints: Record<string, string> = {
+  index: "src/_root",
+  components: "src/_components",
+  element: "src/_element",
+  video: "src/_video",
+};
+
 const facadeModuleIdMap = new Map<string, boolean>();
+
+const format = process.argv
+  .find((part) => part.startsWith("--format="))
+  ?.split("=")[1] as "es" | "cjs" | undefined;
 
 export default defineConfig({
   build: {
     lib: {
-      entry: {
-        index: "src",
-        element: "src/element.tsx",
-        interpolate: "src/interpolate.ts",
-        scrim: "src/scrim.ts",
-        video: "src/video.tsx",
-        videoCaption: "src/components/VideoCaptions.tsx",
-      },
+      entry: entryPoints,
       name: "react-scrolly-telling",
-      formats: ["es", "cjs"],
-      fileName: (format, entry) =>
-        `${entry}.${format === "es" ? "mjs" : "cjs"}`,
+      formats: format ? [format] : ["es", "cjs"],
+      fileName: (format, entry) => `${entry}.${format === "es" ? "js" : "cjs"}`,
     },
     chunkSizeWarningLimit: 5,
     target: "es2016",
@@ -45,13 +50,15 @@ export default defineConfig({
               return `__[name]__.cjs`;
             } else {
               facadeModuleIdMap.set(info.facadeModuleId, true);
-              return `__[name]__.mjs`;
+              return `__[name]__.js`;
             }
           }
 
           const cjs = info.exports.some((e) => e.length > 5);
-          return `__[name]__.${cjs ? "cjs" : "mjs"}`;
+          return `__[name]__.${cjs ? "cjs" : "js"}`;
         },
+
+        sourcemap: true,
       },
     },
   },
@@ -62,5 +69,6 @@ export default defineConfig({
       noEmitOnError: true,
       skipDiagnostics: true,
     }),
+    entryPointsDtsPlugin(entryPoints),
   ],
 });

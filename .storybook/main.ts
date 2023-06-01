@@ -2,10 +2,10 @@ import type { StorybookConfig } from "@storybook/react-vite";
 
 export default {
   stories: [
-    "../src/stories/Welcome.mdx",
-    "../src/stories/FAQ.mdx",
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx)",
+    "../docs/Welcome.mdx",
+    "../docs/FAQ.mdx",
+    "../docs/**/*.mdx",
+    "../docs/**/*.stories.@(js|jsx|ts|tsx)",
   ],
   addons: [
     "@storybook/addon-links",

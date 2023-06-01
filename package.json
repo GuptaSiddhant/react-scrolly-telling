@@ -1,6 +1,6 @@
 {
   "name": "react-scrolly-telling",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Create scrolly-telling animations in React with ease.",
   "type": "module",
   "keywords": [
@@ -19,7 +19,7 @@
   "homepage": "https://react-scrolly-telling.vercel.app",
   "license": "MIT",
   "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "files": [
@@ -29,44 +29,40 @@
     "./package.json": "./package.json",
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "default": "./dist/index.cjs"
     },
+    "./components": {
+      "types": "./dist/components.d.ts",
+      "import": "./dist/components.js",
+      "require": "./dist/components.cjs",
+      "default": "./dist/components.cjs"
+    },
     "./element": {
       "types": "./dist/element.d.ts",
-      "import": "./dist/element.mjs",
+      "import": "./dist/element.js",
       "require": "./dist/element.cjs",
       "default": "./dist/element.cjs"
     },
-    "./interpolate": {
-      "types": "./dist/interpolate.d.ts",
-      "import": "./dist/interpolate.mjs",
-      "require": "./dist/interpolate.cjs",
-      "default": "./dist/interpolate.cjs"
-    },
-    "./scrim": {
-      "types": "./dist/scrim.d.ts",
-      "import": "./dist/scrim.mjs",
-      "require": "./dist/scrim.cjs",
-      "default": "./dist/scrim.cjs"
-    },
     "./video": {
       "types": "./dist/video.d.ts",
-      "import": "./dist/video.mjs",
+      "import": "./dist/video.js",
       "require": "./dist/video.cjs",
       "default": "./dist/video.cjs"
     }
   },
   "scripts": {
     "build": "vite build",
+    "build:esm": "vite build -- --format=es",
+    "build:cjs": "vite build -- --format=cjs",
     "dev": "vite build -w",
     "lint": "eslint src --ext ts,tsx",
-    "prepublishOnly": "yarn lint; yarn build; yarn test",
     "test": "vitest run --coverage",
     "test:watch": "vitest --coverage",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "validate": "yarn lint; yarn build; yarn test"
   },
   "devDependencies": {
     "@a110/storybook-expand-all": "^1.1.1",
@@ -91,6 +87,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup-plugin-preserve-directives": "^0.2.0",
     "storybook": "^7.0.12",
     "typescript": "^5.0.0",
     "vite": "^4.3.3",
