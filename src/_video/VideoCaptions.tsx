@@ -4,6 +4,7 @@ import {
   type ScrollyVideoCaptionPosition,
   calculateVideoCaptionAnimation,
   calculateVideoCaptionStyle,
+  DEFAULT_ANIMATION_VARIANT,
 } from "./video-captions.js";
 import { useVideoCurrentTime } from "./video-time.js";
 
@@ -87,6 +88,7 @@ function VideoCaption(props: VideoCaptionProps): JSX.Element | null {
     animation,
     ...options
   } = props;
+  const animationVariant = animation?.variant ?? DEFAULT_ANIMATION_VARIANT;
   const animationDuration =
     animation?.durationInSeconds ?? DEFAULT_ANIMATION_DURATION;
 
@@ -105,10 +107,11 @@ function VideoCaption(props: VideoCaptionProps): JSX.Element | null {
       style={{
         ...style,
         ...calculateVideoCaptionStyle(options),
-        ...calculateVideoCaptionAnimation(animation, {
+        ...calculateVideoCaptionAnimation(animationVariant, {
           currentTime,
           fromTimestamp,
           toTimestamp,
+          animationDuration,
         }),
       }}
     >

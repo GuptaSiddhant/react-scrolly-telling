@@ -10,9 +10,10 @@ describe.concurrent("calculateVideoCaptionAnimation", () => {
   const options = {
     fromTimestamp: 1,
     toTimestamp: 4,
+    animationDuration: 1,
   };
 
-  it("should return opacity with default animation", () => {
+  describe.concurrent("should return opacity with fade animation", () => {
     const points = [
       [0, 0],
       [0.75, 0],
@@ -31,37 +32,74 @@ describe.concurrent("calculateVideoCaptionAnimation", () => {
     ];
 
     points.forEach(([currentTime, opacity]) => {
-      expect(
-        calculateVideoCaptionAnimation(undefined, { ...options, currentTime })
-      ).toEqual({ opacity });
+      it(`fade [${currentTime}, ${opacity}]`, () => {
+        expect(
+          calculateVideoCaptionAnimation("fade", {
+            ...options,
+            animationDuration: 0.5,
+            currentTime,
+          })
+        ).toEqual({ opacity });
+      });
     });
   });
 
-  it("should return opacity with custom fade animation with duration of 1s", () => {
+  describe.concurrent(
+    "should return opacity with custom fade animation with duration of 1s",
+    () => {
+      const points = [
+        [0, 0],
+        [0.5, 0],
+        [0.75, 0.25],
+        [1, 0.5],
+        [1.25, 0.75],
+        [1.5, 1],
+        [2, 1],
+        [3, 1],
+        [3.5, 1],
+        [3.75, 0.75],
+        [4, 0.5],
+        [4.25, 0.25],
+        [4.5, 0],
+        [5, 0],
+      ];
+
+      points.forEach(([currentTime, opacity]) => {
+        it(`fade duration:1s [${currentTime}, ${opacity}]`, () => {
+          expect(
+            calculateVideoCaptionAnimation("fade", {
+              ...options,
+              currentTime,
+            })
+          ).toEqual({ opacity });
+        });
+      });
+    }
+  );
+
+  describe.concurrent("should return opacity with none animation", () => {
     const points = [
       [0, 0],
-      [0.5, 0],
-      [0.75, 0.25],
-      [1, 0.5],
-      [1.25, 0.75],
+      [0.75, 0],
+      [1, 1],
+      [1.25, 1],
       [1.5, 1],
       [2, 1],
       [3, 1],
-      [3.5, 1],
-      [3.75, 0.75],
-      [4, 0.5],
-      [4.25, 0.25],
-      [4.5, 0],
+      [4, 1],
+      [4.25, 0],
       [5, 0],
     ];
 
     points.forEach(([currentTime, opacity]) => {
-      expect(
-        calculateVideoCaptionAnimation(
-          { durationInSeconds: 1, variant: "fade" },
-          { ...options, currentTime }
-        )
-      ).toEqual({ opacity });
+      it(`none duration:1s [${currentTime}, ${opacity}]`, () => {
+        expect(
+          calculateVideoCaptionAnimation("none", {
+            ...options,
+            currentTime,
+          })
+        ).toEqual({ opacity });
+      });
     });
   });
 
@@ -69,10 +107,10 @@ describe.concurrent("calculateVideoCaptionAnimation", () => {
     expect(
       calculateVideoCaptionAnimation(
         // @ts-expect-error
-        { durationInSeconds: 1, variant: "unsupported" },
+        "unsupported",
         { ...options, currentTime: 0 }
       )
-    ).toBeUndefined();
+    ).toEqual({});
   });
 });
 

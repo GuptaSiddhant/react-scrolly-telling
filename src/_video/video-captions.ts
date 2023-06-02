@@ -7,26 +7,34 @@ export interface ScrollyVideoCaptionAnimation {
   variant: ScrollyVideoCaptionAnimationVariant;
 }
 
-export type ScrollyVideoCaptionAnimationVariant = "fade";
+export type ScrollyVideoCaptionAnimationVariant = "fade" | "none";
+
+export interface CalculateVideoCaptionAnimationOptions {
+  currentTime: number;
+  fromTimestamp: number;
+  toTimestamp: number;
+  animationDuration: number;
+}
 
 export const DEFAULT_ANIMATION_DURATION = 0.5;
 export const DEFAULT_ANIMATION_VARIANT: ScrollyVideoCaptionAnimationVariant =
   "fade";
 
 export function calculateVideoCaptionAnimation(
-  animation: ScrollyVideoCaptionAnimation | undefined,
-  options: {
-    currentTime: number;
-    fromTimestamp: number;
-    toTimestamp: number;
-  }
-): React.CSSProperties | undefined {
-  const { currentTime, fromTimestamp, toTimestamp } = options;
+  animationVariant: ScrollyVideoCaptionAnimationVariant,
+  options: CalculateVideoCaptionAnimationOptions
+): React.CSSProperties {
+  if (animationVariant === "none") return calculateNoneAnimation(options);
+  if (animationVariant === "fade") return calculateFadeAnimation(options);
+  return {};
+}
 
-  const animationVariant = animation?.variant ?? DEFAULT_ANIMATION_VARIANT;
-  const animationDuration =
-    animation?.durationInSeconds ?? DEFAULT_ANIMATION_DURATION;
-
+function calculateFadeAnimation({
+  currentTime,
+  fromTimestamp,
+  toTimestamp,
+  animationDuration,
+}: CalculateVideoCaptionAnimationOptions) {
   const fromTimeWithAnimation = fromTimestamp - animationDuration / 2;
   const toTimeWithAnimation = toTimestamp + animationDuration / 2;
 
@@ -37,6 +45,9 @@ export function calculateVideoCaptionAnimation(
     targetTo: 1,
     precision: 2,
   });
+
+  if (entryRatio < 1) return { opacity: entryRatio };
+
   const exitRatio = interpolate(currentTime, {
     sourceFrom: toTimeWithAnimation - animationDuration,
     sourceTo: toTimeWithAnimation,
@@ -45,9 +56,18 @@ export function calculateVideoCaptionAnimation(
     precision: 2,
   });
 
-  return animationVariant === "fade"
-    ? { opacity: entryRatio === 1 ? exitRatio : entryRatio }
-    : undefined;
+  return { opacity: exitRatio };
+}
+
+function calculateNoneAnimation({
+  currentTime,
+  fromTimestamp,
+  toTimestamp,
+}: CalculateVideoCaptionAnimationOptions) {
+  if (currentTime >= fromTimestamp && currentTime <= toTimestamp)
+    return { opacity: 1 };
+
+  return { opacity: 0 };
 }
 
 // Positioning
