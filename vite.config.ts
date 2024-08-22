@@ -1,7 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dtsPlugin from "vite-plugin-dts";
-
+import preserveDirectives from "rollup-plugin-preserve-directives";
 import entryPointsDtsPlugin from "./scripts/vite-plugin-entryPoints-dts";
 import { peerDependencies, devDependencies } from "./package.json";
 
@@ -29,7 +29,6 @@ export default defineConfig({
     chunkSizeWarningLimit: 5,
     target: "es2016",
     copyPublicDir: false,
-
     rollupOptions: {
       external: [
         "react/jsx-runtime",
@@ -43,7 +42,7 @@ export default defineConfig({
           "react-dom": "ReactDOM",
           "react/jsx-runtime": "react/jsx-runtime",
         },
-
+        preserveModules: true,
         chunkFileNames: (info) => {
           if (info.facadeModuleId) {
             if (facadeModuleIdMap.has(info.facadeModuleId)) {
@@ -60,6 +59,7 @@ export default defineConfig({
 
         sourcemap: true,
       },
+      plugins: [preserveDirectives()],
     },
   },
   plugins: [
