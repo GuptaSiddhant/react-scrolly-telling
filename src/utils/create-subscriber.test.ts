@@ -1,3 +1,4 @@
+import { vi, expect, describe, it } from "vitest";
 import createSubscriber from "./create-subscriber.js";
 
 describe("createSubscriber", () => {

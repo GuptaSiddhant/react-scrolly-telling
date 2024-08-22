@@ -1,3 +1,4 @@
+import { expect, describe, it } from "vitest";
 import { renderHook } from "@testing-library/react";
 import useClientValue from "./use-client-value.js";
 

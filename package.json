@@ -31,25 +31,25 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "default": "./dist/index.cjs"
+      "default": "./dist/index.js"
     },
     "./components": {
       "types": "./dist/components.d.ts",
       "import": "./dist/components.js",
       "require": "./dist/components.cjs",
-      "default": "./dist/components.cjs"
+      "default": "./dist/components.js"
     },
     "./element": {
       "types": "./dist/element.d.ts",
       "import": "./dist/element.js",
       "require": "./dist/element.cjs",
-      "default": "./dist/element.cjs"
+      "default": "./dist/element.js"
     },
     "./video": {
       "types": "./dist/video.d.ts",
       "import": "./dist/video.js",
       "require": "./dist/video.cjs",
-      "default": "./dist/video.cjs"
+      "default": "./dist/video.js"
     }
   },
   "scripts": {

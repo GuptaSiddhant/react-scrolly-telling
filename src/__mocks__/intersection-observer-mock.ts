@@ -1,4 +1,5 @@
 // IntersectionObserver isn't available in test environment
+import { vi, beforeEach } from "vitest";
 
 export function mockIntersectionObserver() {
   const observeSpy = vi.fn();

@@ -1,5 +1,5 @@
+import { vi, expect, describe, it } from "vitest";
 import { renderHook } from "@testing-library/react";
-
 import { useVideoTimeChange } from "./video-time.js";
 
 vi.spyOn(window, "requestAnimationFrame").mockImplementation((cb) => {

@@ -1,3 +1,4 @@
+import { vi, expect, beforeEach, describe, it } from "vitest";
 import { renderHook } from "@testing-library/react";
 import useAnimationFrame from "./animation-frame.js";
 

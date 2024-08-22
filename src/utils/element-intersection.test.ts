@@ -1,3 +1,4 @@
+import { vi, expect, describe, test } from "vitest";
 import { renderHook } from "@testing-library/react";
 import useElementIntersection from "./element-intersection.js";
 

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @vitest-environment node
+import { expect, describe, it } from "vitest";
 
 import {
   calculateVideoCaptionAnimation,

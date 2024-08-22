@@ -1,5 +1,5 @@
 // @vitest-environment node
-
+import { expect, describe, test } from "vitest";
 import invariant from "./invariant.js";
 
 describe.concurrent("invariant", () => {

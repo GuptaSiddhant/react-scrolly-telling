@@ -1,8 +1,7 @@
+import { expect, describe, it } from "vitest";
 import { renderHook } from "@testing-library/react";
-
 import { ScrollyProvider } from "./Provider.js";
 import { useScrollyRootContext } from "./root-context.js";
-
 import catchHookErrorMessage from "../__mocks__/catch-hook-error.js";
 import { mockIntersectionObserver } from "../__mocks__/intersection-observer-mock.js";
 

@@ -1,3 +1,4 @@
+import { vi, expect, describe, it } from "vitest";
 import { renderHook } from "@testing-library/react";
 import useElementPosition, {
   type ElementPosition,

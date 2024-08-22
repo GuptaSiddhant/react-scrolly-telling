@@ -1,3 +1,4 @@
+import { expect, describe, it } from "vitest";
 import { act, renderHook } from "@testing-library/react";
 import useWindowDimension from "./window-dimension.js";
 

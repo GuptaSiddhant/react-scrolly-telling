@@ -1,5 +1,5 @@
 // @vitest-environment node
-
+import { expect, describe, it } from "vitest";
 import { minmax, roundToDecimal, interpolate, Easing } from "./math.js";
 
 describe.concurrent("minmax", () => {

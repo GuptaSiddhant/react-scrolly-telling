@@ -1,5 +1,5 @@
+import { vi, expect, beforeEach, describe, it } from "vitest";
 import { renderHook } from "@testing-library/react";
-
 import { ScrollyProvider } from "./index.js";
 import useScrolly, { __EXPORTS_FOR_TESTS_ONLY__ } from "./use-scrolly.js";
 
